@@ -1,10 +1,9 @@
-use bincode;
+use crate::archive;
 use crate::location::Location;
 use pty::fork::Fork;
-use std::io::{Write, Read};
-use std::process::Command;
 use std;
-use std::fs;
+use std::io::Read;
+use std::process::Command;
 
 pub fn run(executable: &str, arguments: &Vec<String>) {
     let fork = Fork::from_ptmx().unwrap();
@@ -21,16 +20,14 @@ pub fn run(executable: &str, arguments: &Vec<String>) {
             .status()
             .expect(concat!("could not execute", stringify!(executable)));
 
-        let loc = vec![Location { path: "hello world".to_string(), line: None, column: None }];
-        let encoded: Vec<u8> = bincode::serialize(&loc).unwrap();
-        {
-            let _ = std::fs::write("/tmp/ea", &encoded);
-        }
+        let locs = vec![Location {
+            path: "hello world".to_string(),
+            line: None,
+            column: None,
+        }];
 
-        {
-            let buf = std::fs::read("/tmp/ea").unwrap();
-            let decoded: Vec<Location> = bincode::deserialize(&buf).unwrap();
-            println!("{:?}", decoded);
-        }
+        _ = archive::write(&locs);
+        let found = archive::read();
+        println!("{:?}", found);
     }
 }

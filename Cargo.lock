@@ -70,6 +70,7 @@ version = "0.1.0"
 dependencies = [
  "bincode",
  "clap",
+ "lazy_static",
  "pty",
  "serde",
 ]
