@@ -1,25 +1,14 @@
-use atty::Stream;
-use std::io;
+use clap::Parser;
 
-fn echo() {
-    loop {
-        let mut input = String::new();
-        if let Ok(count) = io::stdin().read_line(&mut input) {
-            if count == 0 {
-                return;
-            }
+mod interface;
+mod location;
+mod commands;
 
-            print!("{}", input);
+fn main() {
+    let args = interface::Interface::parse();
+    match args.command {
+        interface::Commands::Run { executable, arguments } => {
+            commands::run::run(&executable, &arguments);
         }
     }
-}
-
-fn main() -> io::Result<()> {
-    if atty::is(Stream::Stdin) {
-        println!("hello");
-    } else {
-        echo()
-    }
-
-    Ok(())
 }

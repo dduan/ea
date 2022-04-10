@@ -9,13 +9,16 @@
   outputs = { self, nixpkgs, flake-utils }:
     flake-utils.lib.eachDefaultSystem (system:
       with nixpkgs.legacyPackages.${system};
+      let
+        info = (fromTOML (builtins.readFile ./Cargo.toml)).package;
+      in
       rec {
         packages = flake-utils.lib.flattenTree {
           ea = rustPlatform.buildRustPackage rec {
-            pname = "ea";
-            version = "0.1.0";
+            pname = info.name;
+            version = info.version;
             src = ./.;
-            cargoSha256 = "sha256-O3uIpQ+HynHVOw1mMUBOe0vgcQnxW9zKzLCzFbTU2Xg=";
+            cargoSha256 = "sha256-GbWyNYG8bbscdoY5MSmAhjIvzKFjvGX12Wpw6wxE4y0=";
             lockFile = ./Cargo.lock;
           };
         };
@@ -25,6 +28,8 @@
             cargo
             rust-analyzer
             rustc
+          ] ++ pkgs.lib.lists.optionals stdenv.isDarwin [
+            libiconv
           ];
         };
       });
