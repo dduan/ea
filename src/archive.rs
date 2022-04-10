@@ -37,8 +37,7 @@ pub fn write(list: &Vec<Location>) -> io::Result<()> {
     fs::write(ARCHIVE_PATH.as_path(), &data)
 }
 
-pub fn read() -> io::Result<Vec<Location>> {
-    let data: Vec<u8> = fs::read(ARCHIVE_PATH.as_path())?;
-    let list: Vec<Location> = bincode::deserialize(&data).unwrap_or(vec![]);
-    Ok(list)
+pub fn read() -> Vec<Location> {
+    let data: Vec<u8> = fs::read(ARCHIVE_PATH.as_path()).unwrap_or(vec![]);
+    bincode::deserialize(&data).unwrap_or(vec![])
 }

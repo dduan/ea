@@ -11,5 +11,7 @@ pub enum Commands {
     Run {
         executable: String,
         arguments: Vec<String>,
-    }
+    },
+
+    List,
 }
