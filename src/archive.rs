@@ -1,5 +1,5 @@
-use crate::location::Location;
 use bincode;
+use crate::location::Location;
 use lazy_static::lazy_static;
 use std::env;
 use std::fs;
