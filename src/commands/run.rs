@@ -21,7 +21,7 @@ fn execute(executable: &str, arguments: &Vec<String>) -> Vec<u8> {
             _ = parent.read(&mut output);
             print!("[{}]", std::str::from_utf8(&output).unwrap());
         } else {
-            let e = Command::new(executable)
+            Command::new(executable)
                 .args(arguments)
                 .status()
                 .expect(concat!("could not execute", stringify!(executable)));
