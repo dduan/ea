@@ -10,6 +10,7 @@ pub fn ripgrep(input: &[u8]) -> (Vec<u8>, Vec<Location>) {
             Regex::new(r#"^\x1B\[0m\x1B\[\d+?m(\d+?)\x1B\[0m:.+?"#).unwrap();
     }
 
+    let mut output: Vec<String> = vec![];
     let input_str = std::str::from_utf8(input).unwrap();
 
     let mut locations: Vec<Location> = Vec::new();
@@ -17,10 +18,7 @@ pub fn ripgrep(input: &[u8]) -> (Vec<u8>, Vec<Location>) {
     for line in input_str.split('\n') {
         if let Some(line_match) = RE_PATH.captures(line) {
             file = Some(line_match.get(1).unwrap().as_str());
-            continue;
-        }
-
-        if let Some(line_match) = RE_LINE.captures(line) {
+        } else if let Some(line_match) = RE_LINE.captures(line) {
             if let Ok(line_number) = line_match.get(1).unwrap().as_str().parse::<u64>() {
                 if let Some(current_file) = file {
                     locations.push(Location {
@@ -29,10 +27,19 @@ pub fn ripgrep(input: &[u8]) -> (Vec<u8>, Vec<Location>) {
                         column: None,
                     })
                 }
+
+                output.push(format!(
+                    "[\x1B[0m\x1B[31m{}\x1B[0m] {}",
+                    locations.len(),
+                    line
+                ));
             }
             continue;
         }
+        output.push(line.to_string());
     }
 
-    (vec![], locations)
+    let output_data: Vec<u8> = output.join("\n").as_bytes().to_owned();
+    _ = std::fs::write("/tmp/test_output", &output_data);
+    (output_data, locations)
 }
