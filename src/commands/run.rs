@@ -1,33 +1,50 @@
+use atty;
 use crate::archive;
+use crate::interface::Style;
 use crate::location::Location;
+use crate::parsers;
 use pty::fork::Fork;
-use std;
-use std::io::Read;
+use std::io::{self, Read, Write};
 use std::process::Command;
+use std;
 
-pub fn run(executable: &str, arguments: &Vec<String>) {
-    let fork = Fork::from_ptmx().unwrap();
+pub fn run(style: &Style, executable: &str, arguments: &Vec<String>) {
+    process(&style, &execute(&executable, &arguments));
+}
 
-    if let Some(mut parent) = fork.is_parent().ok() {
-        let mut output = String::new();
-        match parent.read_to_string(&mut output) {
-            Ok(_) => println!("{}", output),
-            Err(e) => panic!("read error: {}", e),
+fn execute(executable: &str, arguments: &Vec<String>) -> Vec<u8> {
+    if atty::is(atty::Stream::Stdout) {
+        let fork = Fork::from_ptmx().unwrap();
+
+        let mut output = Vec::new();
+        if let Some(mut parent) = fork.is_parent().ok() {
+            _ = parent.read(&mut output);
+            print!("[{}]", std::str::from_utf8(&output).unwrap());
+        } else {
+            let e = Command::new(executable)
+                .args(arguments)
+                .status()
+                .expect(concat!("could not execute", stringify!(executable)));
+            println!("{:?}", e);
         }
+        return output;
     } else {
-        Command::new(executable)
+        let output = Command::new(executable)
             .args(arguments)
-            .status()
+            .output()
             .expect(concat!("could not execute", stringify!(executable)));
-
-        let locs = vec![Location {
-            path: "hello world".to_string(),
-            line: None,
-            column: None,
-        }];
-
-        _ = archive::write(&locs);
-        let found = archive::read();
-        println!("{:?}", found);
+        return output.stdout;
     }
+}
+
+fn process(style: &Style, output: &[u8]) {
+    let locations: Vec<Location>;
+    let display: Vec<u8>;
+    match style {
+        Style::Ripgrep => {
+            (display, locations) = parsers::ripgrep(std::str::from_utf8(&output).unwrap());
+        }
+    }
+    _ = io::stdout().write(&display);
+    _ = archive::write(&locations);
 }
