@@ -1,0 +1,18 @@
+[0m[35msrc/interface.rs[0m
+[0m[32m20[0m:        arguments: [0m[1m[31mVec[0m<String>,
+
+[0m[35msrc/archive.rs[0m
+[0m[32m35[0m:pub fn write(list: &[0m[1m[31mVec[0m<Location>) -> io::Result<()> {
+[0m[32m36[0m:    let data: [0m[1m[31mVec[0m<u8> = bincode::serialize(list).unwrap_or(vec![]);
+[0m[32m40[0m:pub fn read() -> [0m[1m[31mVec[0m<Location> {
+[0m[32m41[0m:    let data: [0m[1m[31mVec[0m<u8> = fs::read(ARCHIVE_PATH.as_path()).unwrap_or(vec![]);
+
+[0m[35msrc/parsers.rs[0m
+[0m[32m6[0m:pub fn ripgrep(input: &str) -> ([0m[1m[31mVec[0m<u8>, [0m[1m[31mVec[0m<Location>) {
+
+[0m[35msrc/commands/run.rs[0m
+[0m[32m11[0m:pub fn run(style: &Style, executable: &str, arguments: &[0m[1m[31mVec[0m<String>) {
+[0m[32m15[0m:fn execute(executable: &str, arguments: &[0m[1m[31mVec[0m<String>) -> [0m[1m[31mVec[0m<u8> {
+[0m[32m19[0m:        let mut output = [0m[1m[31mVec[0m::new();
+[0m[32m41[0m:    let locations: [0m[1m[31mVec[0m<Location>;
+[0m[32m42[0m:    let display: [0m[1m[31mVec[0m<u8>;

@@ -1,11 +1,6 @@
 use clap::Parser;
-use interface::Commands;
-
-mod archive;
-mod commands;
-mod interface;
-mod location;
-mod parsers;
+use ea::commands;
+use ea::interface::{self, Commands};
 
 fn main() {
     let args = interface::Interface::parse();

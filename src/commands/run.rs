@@ -1,12 +1,12 @@
-use atty;
 use crate::archive;
 use crate::interface::Style;
 use crate::location::Location;
 use crate::parsers;
+use atty;
 use pty::fork::Fork;
+use std;
 use std::io::{self, Read, Write};
 use std::process::Command;
-use std;
 
 pub fn run(style: &Style, executable: &str, arguments: &Vec<String>) {
     process(&style, &execute(&executable, &arguments));
@@ -25,7 +25,6 @@ fn execute(executable: &str, arguments: &Vec<String>) -> Vec<u8> {
                 .args(arguments)
                 .status()
                 .expect(concat!("could not execute", stringify!(executable)));
-            println!("{:?}", e);
         }
         return output;
     } else {
@@ -42,7 +41,7 @@ fn process(style: &Style, output: &[u8]) {
     let display: Vec<u8>;
     match style {
         Style::Ripgrep => {
-            (display, locations) = parsers::ripgrep(std::str::from_utf8(&output).unwrap());
+            (display, locations) = parsers::ripgrep(&output);
         }
     }
     _ = io::stdout().write(&display);
