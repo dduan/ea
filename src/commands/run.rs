@@ -18,8 +18,7 @@ fn execute(executable: &str, arguments: &Vec<String>) -> Vec<u8> {
 
         let mut output = Vec::new();
         if let Some(mut parent) = fork.is_parent().ok() {
-            _ = parent.read(&mut output);
-            print!("[{}]", std::str::from_utf8(&output).unwrap());
+            _ = parent.read_to_end(&mut output);
         } else {
             Command::new(executable)
                 .args(arguments)
