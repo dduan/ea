@@ -1,4 +1,4 @@
-use clap::{Parser, Subcommand, ArgEnum};
+use clap::{ArgEnum, Parser, Subcommand};
 
 #[derive(Debug, Parser)]
 pub struct Interface {
@@ -8,7 +8,7 @@ pub struct Interface {
 
 #[derive(ArgEnum, Clone, Debug)]
 pub enum Style {
-    Ripgrep
+    Ripgrep,
 }
 
 #[derive(Debug, Subcommand)]
@@ -17,6 +17,7 @@ pub enum Commands {
         #[clap(arg_enum)]
         style: Style,
         executable: String,
+        #[clap(last = true)]
         arguments: Vec<String>,
     },
 

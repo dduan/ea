@@ -5,10 +5,10 @@ use std::option::Option;
 
 pub fn ripgrep(input: &[u8]) -> (Vec<u8>, Vec<Location>) {
     lazy_static! {
-        static ref RE_PATH: Regex = Regex::new(r#"^\x1b\[0m\x1b\[\d+?m(.+?)\x1b\[0m$"#).unwrap();
-        static ref RE_PATH_: Regex = Regex::new(r#"^\x1b\[0m\x1b\[\d+?m(.+?)\x1b\[0m$"#).unwrap();
+        static ref RE_PATH: Regex =
+            Regex::new(r#"^(?:\x1b\[[0-9;]*m)*(.+?)(?:\x1b\[[0-9;]*m)+?$"#).unwrap();
         static ref RE_LINE: Regex =
-            Regex::new(r#"^\x1b\[0m\x1b\[\d+?m(\d+?)\x1b\[0m:.+?"#).unwrap();
+            Regex::new(r#"^(?:\x1b\[[0-9;]*m)*(\d+?)(?:\x1b\[[0-9;]*m)+?:.+?"#).unwrap();
     }
 
     let mut output = String::new();
@@ -45,6 +45,5 @@ pub fn ripgrep(input: &[u8]) -> (Vec<u8>, Vec<Location>) {
     }
 
     let output_data: Vec<u8> = output.as_bytes().to_owned();
-    _ = std::fs::write("/tmp/test_output", &output_data);
     (output_data, locations)
 }
