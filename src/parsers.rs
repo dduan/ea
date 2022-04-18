@@ -5,10 +5,8 @@ use std::option::Option;
 
 pub fn ripgrep(input: &[u8]) -> (Vec<u8>, Vec<Location>) {
     lazy_static! {
-        static ref RE_PATH: Regex =
-            Regex::new(r#"^(?:\x1b\[[0-9;]*m)*(.+?)(?:\x1b\[[0-9;]*m)+?$"#).unwrap();
-        static ref RE_LINE: Regex =
-            Regex::new(r#"^(?:\x1b\[[0-9;]*m)*(\d+?)(?:\x1b\[[0-9;]*m)+?:.+?"#).unwrap();
+        static ref RE_ANSI_CODE: Regex = Regex::new(r#"\x1b\[[0-9;]*m"#).unwrap();
+        static ref RE_LINE: Regex = Regex::new(r#"^(\d+):(?:(\d+):)?.+?"#).unwrap();
     }
 
     let mut output = String::new();
@@ -16,17 +14,19 @@ pub fn ripgrep(input: &[u8]) -> (Vec<u8>, Vec<Location>) {
     let input_str = std::str::from_utf8(input).unwrap();
 
     let mut locations: Vec<Location> = Vec::new();
-    let mut file: Option<&str> = None;
+    let mut file: Option<String> = None;
+    let mut striped: String;
     for line in input_str.lines() {
-        if let Some(line_match) = RE_PATH.captures(line) {
-            file = Some(line_match.get(1).unwrap().as_str());
-        } else if let Some(line_match) = RE_LINE.captures(line) {
+        striped = RE_ANSI_CODE.replace_all(line, "").to_string();
+        println!("{}", &striped);
+        if let Some(line_match) = RE_LINE.captures(&striped) {
             if let Ok(line_number) = line_match.get(1).unwrap().as_str().parse::<u64>() {
-                if let Some(current_file) = file {
+                if let Some(current_file) = &file {
+                    let column: Option<u64> = line_match.get(2).and_then(|x| x.as_str().parse::<u64>().ok());
                     let new_location = Location {
                         path: current_file.to_string(),
                         line: Some(line_number),
-                        column: None,
+                        column: column,
                     };
 
                     locations.push(new_location);
@@ -40,10 +40,13 @@ pub fn ripgrep(input: &[u8]) -> (Vec<u8>, Vec<Location>) {
                 );
             }
             continue;
+        } else if !striped.is_empty() {
+            file = Some(striped);
         }
         output = format!("{}{}\n", output, line);
     }
 
     let output_data: Vec<u8> = output.as_bytes().to_owned();
+    _ = std::fs::write("/tmp/debug-output", &output_data);
     (output_data, locations)
 }

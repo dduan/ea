@@ -1,0 +1,7 @@
+[38;5;5m/Users/dduan/src/Clue/Sources/Clue/StoreInitializationError.swift[0m
+[38;5;2m6[0m:10:    case [38;5;1mcouldNotInferStoreLocation[0m
+[38;5;2m30[0m:15:        case .[38;5;1mcouldNotInferStoreLocation[0m:
+
+[38;5;5m/Users/dduan/src/Clue/Sources/Clue/ClueEngine.swift[0m
+[38;5;2m135[0m:40:        throw StoreInitializationError.[38;5;1mcouldNotInferStoreLocation[0m
+
