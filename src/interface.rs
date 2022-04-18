@@ -20,6 +20,8 @@ pub enum Commands {
         executable: String,
         #[clap(last = true)]
         arguments: Vec<String>,
+        #[clap(long, value_name = "debug_files_base_name")]
+        debug: Option<String>,
     },
 
     List,

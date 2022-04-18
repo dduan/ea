@@ -4,10 +4,11 @@ use crate::parsers;
 use atty;
 use pty::fork::Fork;
 use std;
+use std::fs;
 use std::io::{self, Read, Write};
 use std::process::Command;
 
-pub fn run(style: &Style, executable: &str, arguments: &Vec<String>) {
+pub fn run(style: &Style, executable: &str, arguments: &Vec<String>, debug: Option<String>) {
     let output = execute(&executable, &arguments);
     let (display, locations) = match style {
         Style::Grouped => parsers::grouped,
@@ -15,6 +16,11 @@ pub fn run(style: &Style, executable: &str, arguments: &Vec<String>) {
     }(&output);
     _ = io::stdout().write(&display);
     _ = archive::write(&locations);
+    if let Some(debug_path) = debug {
+        _ = fs::write(format!("{}.args", debug_path), format!("{:?}\n{}\n{:?}", style, executable, arguments));
+        _ = fs::write(format!("{}.in", debug_path), output);
+        _ = fs::write(format!("{}.out", debug_path), &display);
+    }
 }
 
 fn execute(executable: &str, arguments: &Vec<String>) -> Vec<u8> {

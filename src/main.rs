@@ -9,8 +9,9 @@ fn main() {
             style,
             executable,
             arguments,
+            debug,
         } => {
-            commands::run::run(&style, &executable, &arguments);
+            commands::run::run(&style, &executable, &arguments, debug);
         }
         Commands::List => {
             commands::list::list();
