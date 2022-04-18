@@ -8,7 +8,8 @@ pub struct Interface {
 
 #[derive(ArgEnum, Clone, Debug)]
 pub enum Style {
-    Ripgrep,
+    Grouped,
+    Linear,
 }
 
 #[derive(Debug, Subcommand)]
