@@ -20,7 +20,6 @@ pub fn grouped(input: &[u8]) -> (Vec<u8>, Vec<Location>) {
     let mut striped: String;
     for line in input_str.lines() {
         striped = RE_ANSI_CODE.replace_all(line, "").to_string();
-        println!("{}", &striped);
         if let Some(line_match) = RE_LINE.captures(&striped) {
             if let Ok(line_number) = line_match.get(1).unwrap().as_str().parse::<u64>() {
                 if let Some(current_file) = &file {
@@ -53,7 +52,6 @@ pub fn grouped(input: &[u8]) -> (Vec<u8>, Vec<Location>) {
 }
 
 pub fn linear(input: &[u8]) -> (Vec<u8>, Vec<Location>) {
-    _ = std::fs::write("/tmp/debug", input);
     let mut output = String::new();
     let mut locations: Vec<Location> = Vec::new();
     let input_str = std::str::from_utf8(input).unwrap();
@@ -77,6 +75,5 @@ pub fn linear(input: &[u8]) -> (Vec<u8>, Vec<Location>) {
         );
     }
     let output_data: Vec<u8> = output.as_bytes().to_owned();
-    _ = std::fs::write("/tmp/debug-output", &output_data);
     (output_data, locations)
 }

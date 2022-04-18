@@ -45,32 +45,64 @@ fn read_locations(path: &str) -> Vec<Location> {
 
 #[test]
 fn test_grouped_output() {
-    let input = fs::read("tests/fixtures/grouped.in").expect("input file");
-    let expected_output = fs::read("tests/fixtures/grouped.out").expect("output file");
+    let input = fs::read("tests/fixtures/grouped.in.txt").expect("input file");
+    let expected_output = fs::read("tests/fixtures/grouped.out.txt").expect("output file");
     let output = parsers::grouped(&input);
     assert_eq!(output.0, expected_output);
 }
 
 #[test]
 fn test_grouped_locations() {
-    let input = fs::read("tests/fixtures/grouped.in").expect("input file");
-    let output = parsers::grouped(&input);
+    let input = fs::read("tests/fixtures/grouped.in.txt").expect("input file");
     let expected_locations: Vec<Location> = read_locations("tests/fixtures/grouped_locations.csv");
+    let output = parsers::grouped(&input);
     assert_eq!(output.1, expected_locations);
 }
 
 #[test]
 fn test_grouped_output2() {
-    let input = fs::read("tests/fixtures/grouped2.in").expect("input file");
-    let expected_output = fs::read("tests/fixtures/grouped2.out").expect("output file");
+    let input = fs::read("tests/fixtures/grouped2.in.txt").expect("input file");
+    let expected_output = fs::read("tests/fixtures/grouped2.out.txt").expect("output file");
     let output = parsers::grouped(&input);
     assert_eq!(output.0, expected_output);
 }
 
 #[test]
 fn test_grouped_locations2() {
-    let input = fs::read("tests/fixtures/grouped2.in").expect("input file");
-    let output = parsers::grouped(&input);
+    let input = fs::read("tests/fixtures/grouped2.in.txt").expect("input file");
     let expected_locations: Vec<Location> = read_locations("tests/fixtures/grouped2_locations.csv");
+    let output = parsers::grouped(&input);
+    assert_eq!(output.1, expected_locations);
+}
+
+#[test]
+fn test_linear_colored_output() {
+    let input = fs::read("tests/fixtures/linear_colored.in.txt").expect("input file");
+    let expected_output = fs::read("tests/fixtures/linear_colored.out.txt").expect("output file");
+    let output = parsers::linear(&input);
+    assert_eq!(output.0, expected_output);
+}
+
+#[test]
+fn test_linear_colored_locations() {
+    let input = fs::read("tests/fixtures/linear_colored.in.txt").expect("input file");
+    let expected_locations: Vec<Location> = read_locations("tests/fixtures/linear_colored_locations.csv");
+    let output = parsers::linear(&input);
+    assert_eq!(output.1, expected_locations);
+}
+
+#[test]
+fn test_linear_output() {
+    let input = fs::read("tests/fixtures/linear.in.txt").expect("input file");
+    let expected_output = fs::read("tests/fixtures/linear.out.txt").expect("output file");
+    let output = parsers::linear(&input);
+    assert_eq!(output.0, expected_output);
+}
+
+#[test]
+fn test_linear_locations() {
+    let input = fs::read("tests/fixtures/linear.in.txt").expect("input file");
+    let expected_locations: Vec<Location> = read_locations("tests/fixtures/linear_locations.csv");
+    let output = parsers::linear(&input);
     assert_eq!(output.1, expected_locations);
 }

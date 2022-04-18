@@ -1,0 +1,10 @@
+./tests/test_parsers.rs
+./src/parsers.rs
+./src/interface.rs
+./src/lib.rs
+./src/commands.rs
+./src/main.rs
+./src/commands/list.rs
+./src/commands/run.rs
+./src/archive.rs
+./src/location.rs

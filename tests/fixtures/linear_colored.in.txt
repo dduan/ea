@@ -1,0 +1,10 @@
+[38;5;81msrc/[0m[38;5;48marchive.rs[0m
+[38;5;81msrc/[0m[38;5;81mcommands/[0m[38;5;48mlist.rs[0m
+[38;5;81msrc/[0m[38;5;81mcommands/[0m[38;5;48mrun.rs[0m
+[38;5;81msrc/[0m[38;5;48mcommands.rs[0m
+[38;5;81msrc/[0m[38;5;48minterface.rs[0m
+[38;5;81msrc/[0m[38;5;48mlib.rs[0m
+[38;5;81msrc/[0m[38;5;48mlocation.rs[0m
+[38;5;81msrc/[0m[38;5;48mmain.rs[0m
+[38;5;81msrc/[0m[38;5;48mparsers.rs[0m
+[38;5;81mtests/[0m[38;5;48mtest_parsers.rs[0m

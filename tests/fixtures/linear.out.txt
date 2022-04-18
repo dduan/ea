@@ -1,0 +1,10 @@
+[[0m[31m1[0m] ./tests/test_parsers.rs
+[[0m[31m2[0m] ./src/parsers.rs
+[[0m[31m3[0m] ./src/interface.rs
+[[0m[31m4[0m] ./src/lib.rs
+[[0m[31m5[0m] ./src/commands.rs
+[[0m[31m6[0m] ./src/main.rs
+[[0m[31m7[0m] ./src/commands/list.rs
+[[0m[31m8[0m] ./src/commands/run.rs
+[[0m[31m9[0m] ./src/archive.rs
+[[0m[31m10[0m] ./src/location.rs
