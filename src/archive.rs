@@ -11,7 +11,7 @@ lazy_static! {
     static ref ARCHIVE_PATH: PathBuf = [
         "/tmp".to_string(),
         format!(
-            "tre_aliases_{}.bin",
+            "ea_aliases_{}.bin",
             env::var("USERNAME").unwrap_or_else(|_| "".to_string())
         ),
     ]

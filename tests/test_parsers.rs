@@ -76,6 +76,23 @@ fn test_grouped_locations2() {
 }
 
 #[test]
+fn test_grouped_output3() {
+    let input = fs::read("tests/fixtures/grouped3.in.txt").expect("input file");
+    let expected_output = fs::read("tests/fixtures/grouped3.out.txt").expect("output file");
+    let output = parsers::grouped(&input).0;
+    _ = std::fs::write("/tmp/debug", &output);
+    assert_eq!(output, expected_output);
+}
+
+#[test]
+fn test_grouped_locations3() {
+    let input = fs::read("tests/fixtures/grouped3.in.txt").expect("input file");
+    let expected_locations: Vec<Location> = read_locations("tests/fixtures/grouped3_locations.csv");
+    let output = parsers::grouped(&input);
+    assert_eq!(output.1, expected_locations);
+}
+
+#[test]
 fn test_linear_colored_output() {
     let input = fs::read("tests/fixtures/linear_colored.in.txt").expect("input file");
     let expected_output = fs::read("tests/fixtures/linear_colored.out.txt").expect("output file");

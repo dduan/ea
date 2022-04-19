@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 use std::option::Option;
 
-#[derive(Serialize, Deserialize, Debug, PartialEq)]
+#[derive(Serialize, Deserialize, Debug, PartialEq, Eq, PartialOrd)]
 pub struct Location {
     pub path: String,
     pub line: Option<u64>,

@@ -4,7 +4,7 @@ use regex::Regex;
 use std::option::Option;
 
 lazy_static! {
-    static ref RE_ANSI_CODE: Regex = Regex::new(r#"\x1b\[[0-9;]*m"#).unwrap();
+    static ref RE_ANSI_CODE: Regex = Regex::new(r#"\x1b\[[0-9K;]*m?"#).unwrap();
 }
 
 pub fn grouped(input: &[u8]) -> (Vec<u8>, Vec<Location>) {

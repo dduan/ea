@@ -1,0 +1,21 @@
+[1;32msrc/parsers.rs[0m[K
+[1;33m10[0m[K:pub fn grouped(input: &[u8]) -> ([30;43mVec[0m[K<u8>, [30;43mVec[0m[K<Location>) {
+[1;33m18[0m[K:    let mut locations: [30;43mVec[0m[K<Location> = [30;43mVec[0m[K::new();
+[1;33m50[0m[K:    let output_data: [30;43mVec[0m[K<u8> = output.as_bytes().to_owned();
+[1;33m54[0m[K:pub fn linear(input: &[u8]) -> ([30;43mVec[0m[K<u8>, [30;43mVec[0m[K<Location>) {
+[1;33m56[0m[K:    let mut locations: [30;43mVec[0m[K<Location> = [30;43mVec[0m[K::new();
+[1;33m77[0m[K:    let output_data: [30;43mVec[0m[K<u8> = output.as_bytes().to_owned();
+
+[1;32msrc/interface.rs[0m[K
+[1;33m22[0m[K:        arguments: [30;43mVec[0m[K<String>,
+
+[1;32msrc/archive.rs[0m[K
+[1;33m35[0m[K:pub fn write(list: &[30;43mVec[0m[K<Location>) -> io::Result<()> {
+[1;33m36[0m[K:    let data: [30;43mVec[0m[K<u8> = bincode::serialize(list).unwrap_or(vec![]);
+[1;33m40[0m[K:pub fn read() -> [30;43mVec[0m[K<Location> {
+[1;33m41[0m[K:    let data: [30;43mVec[0m[K<u8> = fs::read(ARCHIVE_PATH.as_path()).unwrap_or(vec![]);
+
+[1;32msrc/commands/run.rs[0m[K
+[1;33m11[0m[K:pub fn run(style: &Style, executable: &str, arguments: &[30;43mVec[0m[K<String>, debug: Option<String>) {
+[1;33m26[0m[K:fn execute(executable: &str, arguments: &[30;43mVec[0m[K<String>) -> [30;43mVec[0m[K<u8> {
+[1;33m29[0m[K:        let mut output = [30;43mVec[0m[K::new();
