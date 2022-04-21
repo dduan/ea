@@ -16,5 +16,8 @@ fn main() {
         Some(Commands::List) | None => {
             commands::list::list();
         },
+        Some(Commands::Print { number, format }) => {
+            commands::print::print(number, &format);
+        }
     }
 }

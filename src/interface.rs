@@ -27,4 +27,12 @@ pub enum Commands {
     },
 
     List,
+
+    #[clap(alias("p"))]
+    Print {
+        #[clap(required = true)]
+        number: usize,
+        #[clap(default_value="{path}")]
+        format: String,
+    },
 }
