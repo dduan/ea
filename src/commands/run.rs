@@ -12,7 +12,8 @@ pub fn run(style: &Style, executable: &str, arguments: &Vec<String>, debug: Opti
     let output = execute(&executable, &arguments);
     let (display, locations) = match style {
         Style::Grouped => parsers::grouped,
-        Style::Linear => parsers::linear
+        Style::Linear => parsers::linear,
+        Style::Search => parsers::search,
     }(&output);
     _ = io::stdout().write(&display);
     _ = archive::write(&locations);

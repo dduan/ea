@@ -123,3 +123,19 @@ fn test_linear_locations() {
     let output = parsers::linear(&input);
     assert_eq!(output.1, expected_locations);
 }
+
+#[test]
+fn test_search_output() {
+    let input = fs::read("tests/fixtures/search.in.txt").expect("input file");
+    let expected_output = fs::read("tests/fixtures/search.out.txt").expect("output file");
+    let output = parsers::search(&input);
+    assert_eq!(output.0, expected_output);
+}
+
+#[test]
+fn test_search_locations() {
+    let input = fs::read("tests/fixtures/search.in.txt").expect("input file");
+    let expected_locations: Vec<Location> = read_locations("tests/fixtures/search_locations.csv");
+    let output = parsers::search(&input);
+    assert_eq!(output.1, expected_locations);
+}

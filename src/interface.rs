@@ -10,6 +10,7 @@ pub struct Interface {
 pub enum Style {
     Grouped,
     Linear,
+    Search,
 }
 
 #[derive(Debug, Subcommand)]
