@@ -1,9 +1,10 @@
 use clap::{ArgEnum, Parser, Subcommand};
 
 #[derive(Debug, Parser)]
+#[clap(author, version, about)]
 pub struct Interface {
     #[clap(subcommand)]
-    pub command: Commands,
+    pub command: Option<Commands>,
 }
 
 #[derive(ArgEnum, Clone, Debug)]

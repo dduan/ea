@@ -5,16 +5,16 @@ use ea::interface::{self, Commands};
 fn main() {
     let args = interface::Interface::parse();
     match args.command {
-        Commands::Run {
+        Some(Commands::Run {
             style,
             executable,
             arguments,
             debug,
-        } => {
+        }) => {
             commands::run::run(&style, &executable, &arguments, debug);
         }
-        Commands::List => {
+        Some(Commands::List) | None => {
             commands::list::list();
-        }
+        },
     }
 }
