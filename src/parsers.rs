@@ -4,12 +4,11 @@ use regex::Regex;
 use std::option::Option;
 
 lazy_static! {
-    static ref RE_ANSI_CODE: Regex = Regex::new(r#"\x1b\[[0-9;K]*m?"#).unwrap();
+    static ref RE_ANSI_CODE: Regex = Regex::new(r#"(\x1b\[[0-9;]*m|\x1b\[[0-9;]*K)"#).unwrap();
 }
 
 fn append_line(output: &mut String, location_number: usize, line: &str) {
     *output = format!(
-        //"{}\x1b[0m[\x1b[0m\x1b[31m{}\x1b[0m] {}\n",
         "{}[\x1b[0m\x1b[31m{}\x1b[0m] {}\n",
         output,
         location_number,
@@ -66,10 +65,19 @@ pub fn linear(input: &[u8]) -> (Vec<u8>, Vec<Location>) {
         }
 
         let striped = RE_ANSI_CODE.replace_all(&line, "");
+        let parts: Vec<&str> = striped.split(":").collect();
+        let path = parts[0].to_string();
+        let line_number = if parts.len() > 1 { parts[1].parse::<u64>().ok() } else { None };
+        let column_number = if parts.len() > 2 {
+            parts[2].parse::<u64>().ok()
+        } else {
+            None
+        };
+
         locations.push(Location {
-            path: striped.to_string(),
-            line: None,
-            column: None
+            path: path,
+            line: line_number,
+            column: column_number
         });
 
         append_line(&mut output, locations.len(), line);
