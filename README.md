@@ -60,7 +60,7 @@ ea run grouped rg -- Vec
 
 ### `ea print`
 
-Alternatiely, `ea p`. This command prints out a stored location. You tell it which location number to print,
+Alternatively, `ea p`. This command prints out a stored location. You tell it which location number to print,
 and, optionally, what format to print it in. First example, `ea p 3` will print out the 3rd location. And
 `ea print 1 '{path} L{line} C{column}'` might print something like `a/b/c.swift L23 C15`. The second argument
 is a format string where `{path}` / `{line}` / `{column}` get replaced by corresponding values.
@@ -72,4 +72,4 @@ Or simply `ea`. This subcommand prints out a list of stored locations with their
 
 ## LICENSE
 
-See [LICENSE.txt]
+See `LICENSE.txt`.
