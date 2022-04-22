@@ -1,7 +1,16 @@
 [package]
 name = "ea"
 version = "0.1.0"
+license = "MIT"
+authors = ["Daniel Duan <daniel@duan.ca>"]
 edition = "2018"
+documentation = "https://github.com/dduan/ea/blob/master/README.md"
+exclude = ["/.github/*", "demo.gif", "flake.nix", "flake.lock"]
+readme = "README.md"
+homepage = "https://github.com/dduan/ea"
+repository = "https://github.com/dduan/ea"
+keywords = ["cli"]
+categories = ["command-line-utilities"]
 
 [dependencies]
 atty = '0.2.14'

@@ -7,20 +7,7 @@
 CLI programs like `find`, `rg`, `clang` etc, print out file paths (and line/columns). `ea` lets you act on
 them. Here's how:
 
-```
-# Run your command through `ea`. We'll use `fd '\.rs'` as example:
-$ ea run linear fd -- '\.rs$'
-[1] src/archive.rs
-[2] src/commands.rs
-[3] src/interface.rs
-[4] src/lib.rs
-[5] src/parsers.rs
-[6] tests/test_parsers.rs
-
-# Use the number added by `ea` to retrieve the path info.
-# Let's open [5] src/parsers.rs with vim
-$ vim $(ea p 5)
-```
+![Aliasing In Action](demo.gif)
 
 By running your command through `ea`, each path in its output get marked with a number in the front. This
 number can be used to retrieve its corresponding path later for your purposes. Combined with some shell
