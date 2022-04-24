@@ -30,9 +30,9 @@ fn uncolored_location(index: &usize, location: &Location) -> String {
 pub fn list() {
     for (idx, location) in archive::read().iter().enumerate() {
         if atty::is(atty::Stream::Stdout) {
-            println!("{}", colored_location(&idx, &location));
+            println!("{}", colored_location(&idx, location));
         } else {
-            println!("{}", uncolored_location(&idx, &location));
+            println!("{}", uncolored_location(&idx, location));
         }
     }
 }

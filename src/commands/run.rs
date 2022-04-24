@@ -8,8 +8,8 @@ use std::fs;
 use std::io::{self, Read, Write};
 use std::process::Command;
 
-pub fn run(style: &Style, executable: &str, arguments: &Vec<String>, debug: Option<String>) {
-    let output = execute(&executable, &arguments);
+pub fn run(style: &Style, executable: &str, arguments: &[String], debug: Option<String>) {
+    let output = execute(executable, arguments);
     let (display, locations) = match style {
         Style::Grouped => parsers::grouped,
         Style::Linear => parsers::linear,
@@ -24,11 +24,11 @@ pub fn run(style: &Style, executable: &str, arguments: &Vec<String>, debug: Opti
     }
 }
 
-fn execute(executable: &str, arguments: &Vec<String>) -> Vec<u8> {
+fn execute(executable: &str, arguments: &[String]) -> Vec<u8> {
     if atty::is(atty::Stream::Stdout) {
         let fork = Fork::from_ptmx().unwrap();
         let mut output = Vec::new();
-        if let Some(mut parent) = fork.is_parent().ok() {
+        if let Ok(mut parent) = fork.is_parent() {
             _ = parent.read_to_end(&mut output);
         } else {
             Command::new(executable)
@@ -36,12 +36,12 @@ fn execute(executable: &str, arguments: &Vec<String>) -> Vec<u8> {
                 .status()
                 .expect(concat!("could not execute", stringify!(executable)));
         }
-        return output;
+        output
     } else {
         let output = Command::new(executable)
             .args(arguments)
             .output()
             .expect(concat!("could not execute", stringify!(executable)));
-        return output.stdout;
+        output.stdout
     }
 }
