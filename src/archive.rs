@@ -1,7 +1,7 @@
-use crate::location::Location;
+use ea_command::Location;
 use lazy_static::lazy_static;
 use std::{env, fs, io};
-use std::path::PathBuf;
+use std::path::{PathBuf, Path};
 
 #[cfg(not(target_os = "windows"))]
 lazy_static! {
@@ -30,11 +30,19 @@ lazy_static! {
 }
 
 pub fn write(list: &[Location]) -> io::Result<()> {
+    write_to(ARCHIVE_PATH.as_path(), list)
+}
+
+pub fn write_to(path: &Path, list: &[Location]) -> io::Result<()> {
     let data: Vec<u8> = bincode::serialize(list).unwrap_or_default();
-    fs::write(ARCHIVE_PATH.as_path(), &data)
+    fs::write(path, &data)
 }
 
 pub fn read() -> Vec<Location> {
-    let data: Vec<u8> = fs::read(ARCHIVE_PATH.as_path()).unwrap_or_default();
+    read_from(ARCHIVE_PATH.as_path())
+}
+
+pub fn read_from(path: &Path) -> Vec<Location> {
+    let data: Vec<u8> = fs::read(path).unwrap_or_default();
     bincode::deserialize(&data).unwrap_or_default()
 }

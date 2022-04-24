@@ -1,5 +1,5 @@
 use crate::parsers::{RE_ANSI_CODE, append_line};
-use crate::location::Location;
+use ea_command::Location;
 use lazy_static::lazy_static;
 use regex::Regex;
 

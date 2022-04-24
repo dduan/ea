@@ -1,5 +1,5 @@
 use crate::parsers::{RE_ANSI_CODE, append_line};
-use crate::location::Location;
+use ea_command::Location;
 
 pub fn linear(input: &[u8]) -> (Vec<u8>, Vec<Location>) {
     let mut output = String::new();
