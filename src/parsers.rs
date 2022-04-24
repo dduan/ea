@@ -10,9 +10,7 @@ lazy_static! {
 fn append_line(output: &mut String, location_number: usize, line: &str) {
     *output = format!(
         "{}[\x1b[0m\x1b[31m{}\x1b[0m] {}\n",
-        output,
-        location_number,
-        line
+        output, location_number, line
     );
 }
 
@@ -32,11 +30,13 @@ pub fn grouped(input: &[u8]) -> (Vec<u8>, Vec<Location>) {
         if let Some(line_match) = RE_LINE.captures(&striped) {
             if let Ok(line_number) = line_match.get(1).unwrap().as_str().parse::<u64>() {
                 if let Some(current_file) = &file {
-                    let column: Option<u64> = line_match.get(2).and_then(|x| x.as_str().parse::<u64>().ok());
+                    let column: Option<u64> = line_match
+                        .get(2)
+                        .and_then(|x| x.as_str().parse::<u64>().ok());
                     let new_location = Location {
                         path: current_file.to_string(),
                         line: Some(line_number),
-                        column: column,
+                        column,
                     };
 
                     locations.push(new_location);
@@ -61,13 +61,17 @@ pub fn linear(input: &[u8]) -> (Vec<u8>, Vec<Location>) {
     let input_str = std::str::from_utf8(input).unwrap();
     for line in input_str.lines() {
         if line.is_empty() {
-            continue
+            continue;
         }
 
         let striped = RE_ANSI_CODE.replace_all(&line, "");
         let parts: Vec<&str> = striped.split(":").collect();
         let path = parts[0].to_string();
-        let line_number = if parts.len() > 1 { parts[1].parse::<u64>().ok() } else { None };
+        let line_number = if parts.len() > 1 {
+            parts[1].parse::<u64>().ok()
+        } else {
+            None
+        };
         let column_number = if parts.len() > 2 {
             parts[2].parse::<u64>().ok()
         } else {
@@ -77,7 +81,7 @@ pub fn linear(input: &[u8]) -> (Vec<u8>, Vec<Location>) {
         locations.push(Location {
             path: path,
             line: line_number,
-            column: column_number
+            column: column_number,
         });
 
         append_line(&mut output, locations.len(), line);
@@ -88,8 +92,8 @@ pub fn linear(input: &[u8]) -> (Vec<u8>, Vec<Location>) {
 
 pub fn search(input: &[u8]) -> (Vec<u8>, Vec<Location>) {
     lazy_static! {
-        static ref RE_LINE: Regex = Regex::new(r#"(\r|\n)(\x1b\[[0-9;]*m?)*([^:\n\r]+):(\d+)(?::(\d+))?"#)
-            .unwrap();
+        static ref RE_LINE: Regex =
+            Regex::new(r#"(\r|\n)(\x1b\[[0-9;]*m?)*([^:\n\r]+):(\d+)(?::(\d+))?"#).unwrap();
     }
 
     let mut output = String::new();
