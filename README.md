@@ -70,6 +70,13 @@ is a format string where `{path}` / `{line}` / `{column}` get replaced by corres
 
 Or simply `ea`. This subcommand prints out a list of stored locations with their associated numbers.
 
+## Credits
+
+`ea` is inspired by [keith/tag][], which was inspired by [aykamko/tag][].
+
+[keith/tag]: https://github.com/keith/tag
+[aykamko/tag]: https://github.com/aykamko/tag
+
 ## LICENSE
 
 See `LICENSE.txt`.
