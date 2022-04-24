@@ -64,8 +64,8 @@ pub fn linear(input: &[u8]) -> (Vec<u8>, Vec<Location>) {
             continue;
         }
 
-        let striped = RE_ANSI_CODE.replace_all(&line, "");
-        let parts: Vec<&str> = striped.split(":").collect();
+        let striped = RE_ANSI_CODE.replace_all(line, "");
+        let parts: Vec<&str> = striped.split(':').collect();
         let path = parts[0].to_string();
         let line_number = if parts.len() > 1 {
             parts[1].parse::<u64>().ok()
@@ -79,7 +79,7 @@ pub fn linear(input: &[u8]) -> (Vec<u8>, Vec<Location>) {
         };
 
         locations.push(Location {
-            path: path,
+            path,
             line: line_number,
             column: column_number,
         });
@@ -100,14 +100,14 @@ pub fn search(input: &[u8]) -> (Vec<u8>, Vec<Location>) {
     let mut start: usize = 0;
     let mut locations: Vec<Location> = Vec::new();
     let input_str = std::str::from_utf8(input).unwrap();
-    for captures in RE_LINE.captures_iter(&input_str) {
+    for captures in RE_LINE.captures_iter(input_str) {
         let path_match = captures.get(3).unwrap();
         let line = captures.get(4).unwrap().as_str().parse::<u64>().unwrap();
         let column = captures.get(5).and_then(|x| x.as_str().parse::<u64>().ok());
         locations.push(Location {
             path: path_match.as_str().to_string(),
             line: Some(line),
-            column: column,
+            column,
         });
         output = format!(
             "{}{}[\x1b[0m\x1b[31m{}\x1b[0m] ",
