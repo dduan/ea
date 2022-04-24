@@ -4,6 +4,7 @@ version = "0.1.0"
 license = "MIT"
 authors = ["Daniel Duan <daniel@duan.ca>"]
 edition = "2018"
+description = "Editor Alias: making paths in command line tools actionable."
 documentation = "https://github.com/dduan/ea/blob/master/README.md"
 exclude = ["/.github/*", "demo.gif", "flake.nix", "flake.lock", "/scripts/*"]
 readme = "README.md"
