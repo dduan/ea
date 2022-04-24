@@ -18,7 +18,7 @@
             pname = info.name;
             version = info.version;
             src = ./.;
-            cargoSha256 = "sha256-zX2I1i6mTHV77k7uEpdERVIRBlu61QICFAy5eb/rFok=";
+            cargoSha256 = "sha256-Mh/tjGKoD//UoniD7dsBxTt73tst6WO+3hdKhnBSETU=";
             lockFile = ./Cargo.lock;
           };
         };

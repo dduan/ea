@@ -1,9 +1,6 @@
 use crate::location::Location;
-use bincode;
 use lazy_static::lazy_static;
-use std::env;
-use std::fs;
-use std::io;
+use std::{env, fs, io};
 use std::path::PathBuf;
 
 #[cfg(not(target_os = "windows"))]
