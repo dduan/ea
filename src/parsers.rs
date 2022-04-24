@@ -23,9 +23,14 @@ pub mod tests {
     use std::str;
 
     lazy_static! {
-        static ref FIXTURES: PathBuf = [env!("CARGO_MANIFEST_DIR"), "resources", "fixtures",]
-            .iter()
-            .collect();
+        static ref FIXTURES: PathBuf = [
+            env!("CARGO_MANIFEST_DIR"),
+            "resources",
+            "fixtures",
+            "parsers"
+        ]
+        .iter()
+        .collect();
     }
 
     pub fn fixture(path: &str) -> PathBuf {
