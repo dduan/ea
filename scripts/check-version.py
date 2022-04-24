@@ -3,9 +3,9 @@
 import re
 import sys
 
-expected = re.search(r'name = "ea"\nversion = "(.+)"', open('Cargo.toml').read(), re.M).group(1)
+expected = re.search(r'name = "ea-command"\nversion = "(.+)"', open('Cargo.toml').read(), re.M).group(1)
 versions = {}
-versions['Cargo.lock'] = re.search(r'name = "ea"\nversion = "(.+)"', open('Cargo.lock').read(), re.M).group(1)
+versions['Cargo.lock'] = re.search(r'name = "ea-command"\nversion = "(.+)"', open('Cargo.lock').read(), re.M).group(1)
 versions['CHANGELOG.md'] = re.search(r'# main\s+#\s*(.+)', open('CHANGELOG.md').read(), re.M).group(1)
 
 for file in versions:

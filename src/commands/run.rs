@@ -11,9 +11,9 @@ use std::process::Command;
 pub fn run(style: &Style, executable: &str, arguments: &[String], debug: Option<String>) {
     let output = execute(executable, arguments);
     let (display, locations) = match style {
-        Style::Grouped => parsers::grouped,
-        Style::Linear => parsers::linear,
-        Style::Search => parsers::search,
+        Style::Grouped => parsers::grouped::grouped,
+        Style::Linear => parsers::linear::linear,
+        Style::Search => parsers::search::search,
     }(&output);
     _ = io::stdout().write(&display);
     _ = archive::write(&locations);
