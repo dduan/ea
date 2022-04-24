@@ -1,7 +1,6 @@
 mod commands;
 mod interface;
 mod archive;
-mod location;
 mod parsers;
 
 use clap::Parser;

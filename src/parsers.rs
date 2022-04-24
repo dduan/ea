@@ -18,7 +18,8 @@ fn append_line(output: &mut String, location_number: usize, line: &str) {
 
 #[cfg(test)]
 mod tests {
-    use crate::location::Location;
+    use crate::archive::read_from;
+    use ea_command::Location;
     use super::*;
     use std::fs;
     use std::str;
@@ -31,46 +32,6 @@ mod tests {
             "resources",
             "fixtures",
         ].iter().collect();
-    }
-
-    fn read_locations(path: PathBuf) -> Vec<Location> {
-        let mut locations = Vec::new();
-        for line in str::from_utf8(&fs::read(path).unwrap())
-            .unwrap()
-                .split('\n')
-                {
-                    let parts: Vec<&str> = line.split(',').collect();
-                    let length = parts.len();
-                    let location: Location;
-                    if length == 1 {
-                        location = Location {
-                            path: parts[0].to_string(),
-                            line: None,
-                            column: None,
-                        }
-                    } else if length == 2 {
-                        let line = parts[1].parse::<u64>().unwrap();
-                        location = Location {
-                            path: parts[0].to_string(),
-                            line: Some(line),
-                            column: None,
-                        }
-                    } else {
-                        let line = parts[1].parse::<u64>().unwrap();
-                        let column = parts[2].parse::<u64>().unwrap();
-                        location = Location {
-                            path: parts[0].to_string(),
-                            line: Some(line),
-                            column: Some(column),
-                        }
-                    }
-
-                    if !location.path.is_empty() {
-                        locations.push(location);
-                    }
-                }
-
-        locations
     }
 
     fn fixture(path: &str) -> PathBuf {
@@ -90,7 +51,7 @@ mod tests {
 #[test]
     fn test_grouped_locations() {
         let input = fs::read(fixture("grouped.in.txt")).expect("input file");
-        let expected_locations: Vec<Location> = read_locations(fixture("grouped_locations.csv"));
+        let expected_locations: Vec<Location> = read_from(&fixture("grouped_locations.bin"));
         let output = grouped::grouped(&input);
         assert_eq!(output.1, expected_locations);
     }
@@ -106,7 +67,7 @@ mod tests {
 #[test]
     fn test_grouped_locations2() {
         let input = fs::read(fixture("grouped2.in.txt")).expect("input file");
-        let expected_locations: Vec<Location> = read_locations(fixture("grouped2_locations.csv"));
+        let expected_locations: Vec<Location> = read_from(&fixture("grouped2_locations.bin"));
         let output = grouped::grouped(&input);
         assert_eq!(output.1, expected_locations);
     }
@@ -116,14 +77,13 @@ mod tests {
         let input = fs::read(fixture("grouped3.in.txt")).expect("input file");
         let expected_output = fs::read(fixture("grouped3.out.txt")).expect("output file");
         let output = grouped::grouped(&input).0;
-        _ = std::fs::write("/tmp/debug", &output);
         assert_eq!(output, expected_output);
     }
 
 #[test]
     fn test_grouped_locations3() {
         let input = fs::read(fixture("grouped3.in.txt")).expect("input file");
-        let expected_locations: Vec<Location> = read_locations(fixture("grouped3_locations.csv"));
+        let expected_locations: Vec<Location> = read_from(&fixture("grouped3_locations.bin"));
         let output = grouped::grouped(&input);
         assert_eq!(output.1, expected_locations);
     }
@@ -139,7 +99,7 @@ mod tests {
 #[test]
     fn test_linear_colored_locations() {
         let input = fs::read(fixture("linear_colored.in.txt")).expect("input file");
-        let expected_locations: Vec<Location> = read_locations(fixture("linear_colored_locations.csv"));
+        let expected_locations: Vec<Location> = read_from(&fixture("linear_colored_locations.bin"));
         let output = linear::linear(&input);
         assert_eq!(output.1, expected_locations);
     }
@@ -155,7 +115,7 @@ mod tests {
 #[test]
     fn test_linear_locations() {
         let input = fs::read(fixture("linear.in.txt")).expect("input file");
-        let expected_locations: Vec<Location> = read_locations(fixture("linear_locations.csv"));
+        let expected_locations: Vec<Location> = read_from(&fixture("linear_locations.bin"));
         let output = linear::linear(&input);
         assert_eq!(output.1, expected_locations);
     }
@@ -171,7 +131,7 @@ mod tests {
 #[test]
     fn test_search_locations() {
         let input = fs::read(fixture("search.in.txt")).expect("input file");
-        let expected_locations: Vec<Location> = read_locations(fixture("search_locations.csv"));
+        let expected_locations: Vec<Location> = read_from(&fixture("search_locations.bin"));
         let output = search::search(&input);
         assert_eq!(output.1, expected_locations);
     }
