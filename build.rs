@@ -7,13 +7,9 @@ use Shell::*;
 include!("src/interface.rs");
 
 fn main() {
-    let outdir: PathBuf = [
-        env!("CARGO_MANIFEST_DIR"),
-        "resources",
-        "completion_scripts",
-    ]
-    .iter()
-    .collect();
+    let outdir: PathBuf = [env!("CARGO_MANIFEST_DIR"), "scripts", "completion"]
+        .iter()
+        .collect();
     fs::create_dir_all(&outdir).unwrap();
     let mut cmd = Interface::command();
     for shell in [Bash, PowerShell, Fish, Elvish, Zsh] {
