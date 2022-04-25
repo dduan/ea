@@ -1,14 +1,14 @@
+mod archive;
 mod commands;
 mod interface;
-mod archive;
 mod parsers;
 
-use clap::Parser;
 use crate::interface::Commands;
+use clap::Parser;
 
 fn main() {
     let args = interface::Interface::parse();
-    match args.command {
+    match args.subcommand {
         Some(Commands::Run {
             style,
             executable,
@@ -19,7 +19,7 @@ fn main() {
         }
         Some(Commands::List) | None => {
             commands::list::list();
-        },
+        }
         Some(Commands::Print { number, format }) => {
             commands::print::print(number, &format);
         }
