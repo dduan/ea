@@ -6,6 +6,7 @@ check:
 .PHONY: build
 build:
 	@cargo build
+	@git diff --exit-code
 
 .PHONY: test
 test:

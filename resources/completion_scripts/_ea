@@ -1,0 +1,96 @@
+#compdef ea
+
+autoload -U is-at-least
+
+_ea() {
+    typeset -A opt_args
+    typeset -a _arguments_options
+    local ret=1
+
+    if is-at-least 5.2; then
+        _arguments_options=(-s -S -C)
+    else
+        _arguments_options=(-s -C)
+    fi
+
+    local context curcontext="$curcontext" state line
+    _arguments "${_arguments_options[@]}" \
+'-h[Print help information]' \
+'--help[Print help information]' \
+'-V[Print version information]' \
+'--version[Print version information]' \
+":: :_ea_commands" \
+"*::: :->ea-command" \
+&& ret=0
+    case $state in
+    (ea-command)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:ea-command-$line[1]:"
+        case $line[1] in
+            (run)
+_arguments "${_arguments_options[@]}" \
+'--debug=[]:debug_files_base_name:_files' \
+'-h[Print help information]' \
+'--help[Print help information]' \
+':style:(grouped linear search)' \
+':executable:_command_names -e' \
+'*::arguments:' \
+&& ret=0
+;;
+(list)
+_arguments "${_arguments_options[@]}" \
+'-h[Print help information]' \
+'--help[Print help information]' \
+&& ret=0
+;;
+(print)
+_arguments "${_arguments_options[@]}" \
+'-h[Print help information]' \
+'--help[Print help information]' \
+':number:' \
+'::format:' \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" \
+'*::subcommand -- The subcommand whose help message to display:' \
+&& ret=0
+;;
+        esac
+    ;;
+esac
+}
+
+(( $+functions[_ea_commands] )) ||
+_ea_commands() {
+    local commands; commands=(
+'run:' \
+'list:' \
+'print:' \
+'help:Print this message or the help of the given subcommand(s)' \
+    )
+    _describe -t commands 'ea commands' commands "$@"
+}
+(( $+functions[_ea__help_commands] )) ||
+_ea__help_commands() {
+    local commands; commands=()
+    _describe -t commands 'ea help commands' commands "$@"
+}
+(( $+functions[_ea__list_commands] )) ||
+_ea__list_commands() {
+    local commands; commands=()
+    _describe -t commands 'ea list commands' commands "$@"
+}
+(( $+functions[_ea__print_commands] )) ||
+_ea__print_commands() {
+    local commands; commands=()
+    _describe -t commands 'ea print commands' commands "$@"
+}
+(( $+functions[_ea__run_commands] )) ||
+_ea__run_commands() {
+    local commands; commands=()
+    _describe -t commands 'ea run commands' commands "$@"
+}
+
+_ea "$@"
