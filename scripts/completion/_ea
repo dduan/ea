@@ -30,12 +30,12 @@ _ea() {
         case $line[1] in
             (run)
 _arguments "${_arguments_options[@]}" \
-'--debug=[]:debug_files_base_name:_files' \
+'--debug=[Write debug info at <debug_files_base_name.*>]:debug_files_base_name:_files' \
 '-h[Print help information]' \
 '--help[Print help information]' \
-':style:(grouped linear search)' \
-':executable:_command_names -e' \
-'*::arguments:' \
+':style -- Format of output from EXECUTABLE. ea looks for file paths, lines, and columns within the file at the path. A file path can have one or more "locations". A location has at least a file path, and a line number, with an optional column:(grouped linear search)' \
+':executable -- The command to execute:_command_names -e' \
+'*::arguments -- Arguments for EXECUTABLE. Must be separated from EXECUTABLE with `--` (two dashes):' \
 && ret=0
 ;;
 (list)
@@ -48,8 +48,8 @@ _arguments "${_arguments_options[@]}" \
 _arguments "${_arguments_options[@]}" \
 '-h[Print help information]' \
 '--help[Print help information]' \
-':number:' \
-'::format:' \
+':number -- The number associated with a file location from the latest `ea run` output:' \
+'::format -- A string representing the format of the location to be printed. `{path}`, `{line}`, and `{column}` in this string will be replaced with corresponding values within the location. For example, '\''L{line}C{column} @ {path}'\'' might print out '\''L23C11 @ path/to/file'\''. If line or column info isn'\''t available, they'\''ll be filled with '\''0'\'':' \
 && ret=0
 ;;
 (help)
@@ -65,9 +65,9 @@ esac
 (( $+functions[_ea_commands] )) ||
 _ea_commands() {
     local commands; commands=(
-'run:' \
-'list:' \
-'print:' \
+'run:Run EXECUTABLE through `ea`. Expecting its output to be the format of STYLE. Arguments for EXECUTABLE must come after `--`. For example, `rg Vec src` becomes:' \
+'list:List locations found from the latest `ea run` output. This is the default subcommand. Running `ea` is the same as running `ea list`' \
+'print:Print the location info associated with NUMBER. Optionally, customize the output FORMAT. Also availble as the shorthand `ea p ...`' \
 'help:Print this message or the help of the given subcommand(s)' \
     )
     _describe -t commands 'ea commands' commands "$@"
