@@ -22,13 +22,13 @@ set edit:completion:arg-completer[ea] = {|@words|
             cand --help 'Print help information'
             cand -V 'Print version information'
             cand --version 'Print version information'
-            cand run 'run'
-            cand list 'list'
-            cand print 'print'
+            cand run 'Run EXECUTABLE through `ea`. Expecting its output to be the format of STYLE. Arguments for EXECUTABLE must come after `--`. For example, `rg Vec src` becomes:'
+            cand list 'List locations found from the latest `ea run` output. This is the default subcommand. Running `ea` is the same as running `ea list`'
+            cand print 'Print the location info associated with NUMBER. Optionally, customize the output FORMAT. Also availble as the shorthand `ea p ...`'
             cand help 'Print this message or the help of the given subcommand(s)'
         }
         &'ea;run'= {
-            cand --debug 'debug'
+            cand --debug 'Write debug info at <debug_files_base_name.*>'
             cand -h 'Print help information'
             cand --help 'Print help information'
         }
