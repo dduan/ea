@@ -1,4 +1,4 @@
-# ea: Editor Alias
+# ea: Making CLI Outputs Actionable
 
 `ea` remembers file paths from CLI output for later use.
 
