@@ -25,6 +25,7 @@
         defaultPackage = packages.ea;
         devShell = pkgs.mkShell {
           buildInputs = [
+            pandoc
             cargo
             clippy
             rust-analyzer
