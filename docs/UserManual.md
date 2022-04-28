@@ -72,7 +72,7 @@ FORMATS
 
 **search** means the output is almost arbitrary, except every now and then, an location appears at the beginning of a line. This is common in error messages from compilers like _clang_ or _swift_: 
 
-> Sources/Critic/DocProblem.swift:5:26: error: cannot find type 'Stringx' in scope
+> Sources/Critic/DocProblem.swift:5:26: error: cannot find type 'Stringx' in scope  
 >    public let filePath: Stringx
 
 If you need `ea` to support more formats, please file an issue at https://github.com/dduan/ea
