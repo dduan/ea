@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+echo $@
+docker run --platform linux/amd64/v8 --rm -v "$(pwd):/data" -u $(id -u):$(id -g) pandoc/minimal $@

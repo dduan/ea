@@ -1,0 +1,172 @@
+.\"
+.\" Define V font for inline verbatim, using C font in formats
+.\" that render this, and otherwise B font.
+.ie "\f[CB]x\f[]"x" \{\
+. ftr V B
+. ftr VI BI
+. ftr VB B
+. ftr VBI BI
+.\}
+.el \{\
+. ftr V CR
+. ftr VI CI
+. ftr VB CB
+. ftr VBI CBI
+.\}
+.TH "EA" "1" "" "Version 0.1.0" ""
+.hy
+.SS NAME
+.PP
+\f[V]ea\f[R] \[en] Making paths in CLI output actionable.
+.SS SYNOPSIS
+.PP
+\f[B]ea\f[R] [\f[I]options\f[R]] \f[B]run\f[R] \f[I]style\f[R]
+\f[I]executable\f[R] [-- \f[I]argument\f[R]\&...]
+.PD 0
+.P
+.PD
+\f[B]ea\f[R] [\f[I]options\f[R]] [\f[B]list\f[R]]
+.PD 0
+.P
+.PD
+\f[B]ea\f[R] [\f[I]options\f[R]] \f[B]p[rint]\f[R] [\f[I]format\f[R]]
+.SS DESCRIPTION
+.PP
+Command-line tools often prints out file paths.
+Often, we want to follow up with some action on files in these paths,
+such as viewing, copying, editing, etc.
+When running these commands through \f[V]ea\f[R], the paths in output
+will be stored in a local database, and become available for later use.
+.PP
+Use \f[V]ea run\f[R] to invoke your command.
+For example:
+.RS
+.PP
+\f[B]ea run\f[R] \f[I]grouped\f[R] rg -- Vec src
+.RE
+.PP
+\&...
+is how you run \f[V]rg Vec src\f[R] through \f[V]ea\f[R].
+Note: any argument for \f[V]rg\f[R] comes after \f[V]--\f[R].
+.PP
+\f[I]grouped\f[R] hints at the format of \f[V]rg\f[R]`s output' so that
+\f[V]ea\f[R] knows how to find paths from \f[V]rg\f[R]\[cq]s output.
+This hint is necessary for \f[V]ea\f[R] to work with any many arbitrary
+commands as possible.
+See FORMATS to learn more.
+.PP
+You\[cq]ll see that file locations in the original command are now
+prefixed with a number:
+.RS
+.PP
+src/something.rs
+.PD 0
+.P
+.PD
+[1] 23: let list: Vec
+.PD 0
+.P
+.PD
+[2] 41: fn build() -> Vec
+.PD 0
+.P
+.PD
+\&...
+.RE
+.PP
+\f[V]ea list\f[R], or simply \f[V]ea\f[R], will print out these
+locations along with their numbers again:
+.RS
+.PP
+[1] src/something.rs:23 [2] src/something.rs:41 \&...
+.RE
+.PP
+With the numbers, \f[V]ea\f[R] can retrieve a corresponding path.
+In our example, \f[V]ea print\f[R] \f[I]2\f[R] (or \f[V]ea p\f[R]
+\f[I]2\f[R] in short) results in: > src/something.rs
+.PP
+\f[V]ea print\f[R] takes an optional second argument \f[I]format\f[R],
+making it possible to retrieve the location info mixed in this
+\f[I]format\f[R] string.
+The sequences \f[I]{path}\f[R], \f[I]{line}\f[R], and \f[I]{column}\f[R]
+appearing in \f[I]format\f[R] get replaced by the location info.
+Running \f[V]ea p\f[R] \f[I]2\f[R] \f[I]`{path} \[at] {line}'\f[R]
+results in
+.RS
+.PP
+src/something.rs \[at] 41
+.RE
+.PP
+\f[V]ea print\f[R]\[cq]s output is expected to be used as part of a
+longer command, such as \f[V]vim $(ea p 2)\f[R].
+.PP
+It is recommended to create shell aliases or functions for frequently
+used \f[V]ea\f[R] commands.
+.SS FORMATS
+.PP
+\f[V]ea run\f[R]\[cq]s first argument \f[I]style\f[R] is mandatory.
+It indicates how file locations will appear in the output.
+This argument must be one of \f[V]grouped\f[R], \f[V]linear\f[R], or
+\f[V]search\f[R].
+This section will explain what each of them means.
+The command you run through \f[V]ea\f[R] should have a matching
+\f[I]format\f[R] value.
+.PP
+\f[B]grouped\f[R] indicates the command\[cq]s output contains one or
+more sections, each section begins with a file path, and lines of
+line/column, and possibly more content, follows.
+An example of this \f[I]style\f[R] of output is \f[V]ripgrep\f[R]\[cq]s
+default output:
+.RS
+.PP
+src/archive.rs
+.PD 0
+.P
+.PD
+41:pub fn read() -> Vec {
+.PD 0
+.P
+.PD
+45:pub fn read_from(path: &Path) -> Vec {
+.PP
+src/interface.rs
+.PD 0
+.P
+.PD
+53: arguments: Vec,
+.RE
+.PP
+\f[B]linear\f[R] indicates each line in the command\[cq]s output is a
+location.
+A location can be a file path, optionally followed by line, and,
+optionally, column number separated by \[lq]:\[rq] (colon).
+This is the default output from commands such as \f[I]find\f[R] or
+\f[I]fd\f[R]:
+.RS
+.PP
+src/archive.rs:41
+.PD 0
+.P
+.PD
+src/archive.rs:45
+.PD 0
+.P
+.PD
+src/interface.rs:53
+.RE
+.PP
+\f[B]search\f[R] means the output is almost arbitrary, except every now
+and then, an location appears at the beginning of a line.
+This is common in error messages from compilers like \f[I]clang\f[R] or
+\f[I]swift\f[R]:
+.RS
+.PP
+Sources/Critic/DocProblem.swift:5:26: error: cannot find type `Stringx'
+in scope public let filePath: Stringx
+.RE
+.PP
+If you need \f[V]ea\f[R] to support more formats, please file an issue
+at https://github.com/dduan/ea
+.SS AUTHOR
+.PP
+Daniel Duan <daniel@duan.ca>

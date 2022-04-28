@@ -1,3 +1,5 @@
+PANDOC ?= pandoc
+
 .PHONY: check
 check:
 	@cargo check
@@ -7,6 +9,10 @@ check:
 build:
 	@SHELL_COMPLETIONS_DIR=scripts/completion cargo build
 	@git diff --exit-code
+
+.PHONY: manual
+manual:
+	@$(PANDOC) --standalone --to man docs/UserManual.md -o docs/ea.1
 
 .PHONY: test
 test:
