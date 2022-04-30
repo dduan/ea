@@ -19,6 +19,7 @@ configurations, this can provide a powerful experience.
     * [Tutorial](docs/UserManual.md#description)
     * [Formats](docs/UserManual.md#formats)
     * [Shell Integration](docs/UserManual.md#shell-integration)
+* [Editor Alias](docs/ShellIntegrations.md#editor-alias)
 * [Note to packagers](docs/Packaging.md)
 
 ## Credits
