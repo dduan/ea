@@ -13,7 +13,25 @@ By running your command through `ea`, each path in its output get marked with a 
 number can be used to retrieve its corresponding path later for your purposes. Combined with some shell
 configurations, this can provide a powerful experience.
 
-## Documentations
+## Install
+
+#### Via a package manager
+
+`ea` is available in the following package managers.
+
+| Manager / OS | Command                     |
+| ------------ | --------------------------- |
+| Cargo        | `cargo install ea-command`  |
+| Nix flake    | Use `github:dduan/ea`       |
+
+### Pre-built executable
+
+Choose an pre-built executable from the [release page][] that fits your
+platform to download. Unpack it somewhere you'd like to run it from.
+
+[release page]: https://github.com/dduan/ea/releases
+
+## Documentation
 
 * [User Manual](docs/UserManual.md)
     * [Tutorial](docs/UserManual.md#description)
