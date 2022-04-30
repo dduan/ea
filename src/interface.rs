@@ -43,6 +43,8 @@ pub enum Commands {
         /// [search]:  Locations at the start of line, with additional content on the same line,
         ///            followed by lots of other content, followed by another location. Example:
         ///            clang/swift's default format.
+        ///
+        /// For more explanation, see `man ea`, or documentation at http://github.com/dduan/ea
         #[clap(arg_enum)]
         style: Style,
         #[clap(value_hint = ValueHint::CommandName)]
