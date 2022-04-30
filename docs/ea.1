@@ -172,6 +172,34 @@ public let filePath: Stringx
 .PP
 If you need \f[V]ea\f[R] to support more formats, please file an issue
 at https://github.com/dduan/ea
+.SS SHELL INTEGRATION
+.PP
+Some shell aliases, and functions makes using \f[V]ea\f[R] more
+effective.
+.PP
+First, you\[cq]ll want alias your normal command to the \f[V]ea\f[R]
+version:
+.IP
+.nf
+\f[C]
+alias fd \[aq]ea run linear fd --\[aq]
+\f[R]
+.fi
+.PP
+Then, optionally, make a shell function that consume a path from
+\f[V]ea\f[R]\[cq]s output.
+The following example makes \f[V]e 6\f[R] opens the 6th paths known to
+\f[V]ea\f[R] in your default editor in zsh/bash:
+.IP
+.nf
+\f[C]
+e() {  
+    eval $(ea p $1 \[dq]$EDITOR {path}\[dq])  
+}
+\f[R]
+.fi
+.PP
+For more examples, see documentation at https://github.com/dduan/ea
 .SS AUTHOR
 .PP
 Daniel Duan <daniel@duan.ca>
