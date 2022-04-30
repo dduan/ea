@@ -96,7 +96,7 @@ e() {
 }
 ```
 
-For more examples, see documentation at https://github.com/dduan/ea
+For more examples, see documentation at https://github.com/dduan/ea/blob/main/docs/UserManual.md
 
 AUTHOR
 ------
