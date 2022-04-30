@@ -77,6 +77,27 @@ FORMATS
 
 If you need `ea` to support more formats, please file an issue at https://github.com/dduan/ea
 
+SHELL INTEGRATION
+-----------------
+
+Some shell aliases, and functions makes using `ea` more effective.
+
+First, you'll want alias your normal command to the `ea` version:
+
+```
+alias fd 'ea run linear fd --'
+```
+
+Then, optionally, make a shell function that consume a path from `ea`'s output. The following example makes `e 6` opens the 6th paths known to `ea` in your default editor in zsh/bash:
+
+```
+e() {  
+    eval $(ea p $1 "$EDITOR {path}")  
+}
+```
+
+For more examples, see documentation at https://github.com/dduan/ea
+
 AUTHOR
 ------
 
