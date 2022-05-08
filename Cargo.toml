@@ -6,7 +6,7 @@ authors = ["Daniel Duan <daniel@duan.ca>"]
 edition = "2018"
 description = "Editor Alias: making paths in command line tools actionable."
 documentation = "https://github.com/dduan/ea/blob/master/README.md"
-exclude = ["/.github/*", "demo.gif", "flake.nix", "flake.lock", "/scripts/*", "/resources/*"]
+exclude = ["/.github/*", "demo.gif", "flake.nix", "flake.lock", "/scripts/*", "/resources/*", "src/bin/printfile.rs"]
 readme = "README.md"
 homepage = "https://github.com/dduan/ea"
 repository = "https://github.com/dduan/ea"
@@ -26,6 +26,6 @@ serde = { version = "1.0", features = ["derive"] }
 clap = { version = "3.1.8", features = ["cargo"] }
 clap_complete = "3.1"
 
-[[bin]]
-name = "ea"
-path = "src/main.rs"
+[dev-dependencies]
+assert_cmd = "2.0"
+pty = '0.2'

@@ -1,5 +1,5 @@
 use crate::parsers::{append_line, RE_ANSI_CODE};
-use ea_command::Location;
+use crate::Location;
 
 pub fn linear(input: &[u8]) -> (Vec<u8>, Vec<Location>) {
     let mut output = String::new();
@@ -41,7 +41,7 @@ mod tests {
     use super::linear;
     use crate::archive::read_from;
     use crate::parsers::tests::fixture;
-    use ea_command::Location;
+    use crate::Location;
     use std::fs;
 
     #[test]

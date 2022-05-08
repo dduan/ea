@@ -1,3 +1,8 @@
+mod archive;
+mod parsers;
+pub mod commands;
+pub mod interface;
+
 use serde::{Deserialize, Serialize};
 use std::option::Option;
 

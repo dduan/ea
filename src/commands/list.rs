@@ -1,6 +1,6 @@
 use atty;
 use crate::archive;
-use ea_command::Location;
+use crate::Location;
 
 fn colored_location(index: &usize, location: &Location) -> String {
     let mut output = format!("[\x1b[0m\x1b[31m{}\x1b[0m] {}", index + 1, location.path);

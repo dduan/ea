@@ -27,7 +27,7 @@ pub enum Commands {
     /// Run EXECUTABLE through `ea`. Expecting its output to be the format of STYLE. Arguments for
     /// EXECUTABLE must come after `--`. For example, `rg Vec src` becomes:
     ///
-    ///     ea run grouped rg -- Vec src
+    /// ea run grouped rg -- Vec src
     ///
     /// (rg's default output is in the "grouped" STYLE).
     Run {
