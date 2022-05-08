@@ -19,11 +19,12 @@ configurations, this can provide a powerful experience.
 
 `ea` is available in the following package managers.
 
-| Manager / OS | Command                     |
-| ------------ | --------------------------- |
-| Cargo        | `cargo install ea-command`  |
-| AUR / Arch   | `yay -S ea-command`         |
-| Nix flake    | Use `github:dduan/ea`       |
+| Manager / OS | Command                          |
+| ------------ | -------------------------------- |
+| Cargo        | `cargo install ea-command`       |
+| Homebrew     | `brew install dduan/formulae/ea` |
+| AUR / Arch   | `yay -S ea-command`              |
+| Nix flake    | Use `github:dduan/ea`            |
 
 ### Pre-built executable
 
