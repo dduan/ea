@@ -22,6 +22,7 @@ configurations, this can provide a powerful experience.
 | Manager / OS | Command                     |
 | ------------ | --------------------------- |
 | Cargo        | `cargo install ea-command`  |
+| AUR / Arch   | `yay -S ea-command`         |
 | Nix flake    | Use `github:dduan/ea`       |
 
 ### Pre-built executable
