@@ -1,5 +1,5 @@
 use crate::parsers::{append_line, RE_ANSI_CODE};
-use ea_command::Location;
+use crate::Location;
 use lazy_static::lazy_static;
 use regex::Regex;
 
@@ -49,7 +49,7 @@ mod tests {
     use super::grouped;
     use crate::archive::read_from;
     use crate::parsers::tests::fixture;
-    use ea_command::Location;
+    use crate::Location;
     use std::fs;
 
     #[test]

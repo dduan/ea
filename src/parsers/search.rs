@@ -1,4 +1,4 @@
-use ea_command::Location;
+use crate::Location;
 use lazy_static::lazy_static;
 use regex::Regex;
 
@@ -41,7 +41,7 @@ mod tests {
     use super::search;
     use crate::archive::read_from;
     use crate::parsers::tests::fixture;
-    use ea_command::Location;
+    use crate::Location;
     use std::fs;
 
     #[test]

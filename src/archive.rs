@@ -1,4 +1,4 @@
-use ea_command::Location;
+use crate::Location;
 use lazy_static::lazy_static;
 use std::{env, fs, io};
 use std::path::{PathBuf, Path};

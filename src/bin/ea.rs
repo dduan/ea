@@ -1,9 +1,5 @@
-mod archive;
-mod commands;
-mod interface;
-mod parsers;
-
-use crate::interface::Commands;
+use ea_command::interface::{self, Commands};
+use ea_command::commands;
 use clap::Parser;
 
 fn main() {
