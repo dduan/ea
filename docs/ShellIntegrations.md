@@ -12,6 +12,7 @@ Find the shell/editor combination you need below!
 | Vim/NeoVim | [link](#bash-and-vim-or-neovim) | [link](#zsh-and-vim-or-neovim) | [link](#fish-and-vim-or-neovim) |
 | VSCode     | [link](#bash-and-vscode)        | [link](#zsh-and-vscode)        | [link](#fish-and-vscode)        |
 | Emacs      | [link](#bash-and-emacs)         | [link](#zsh-and-emacs)         | [link](#fish-and-emacs)         |
+| TextMate   | [link](#bash-and-textmate)      | [link](#zsh-and-textmate)      | [link](#fish-and-textmate)      |
 
 ## Bash and Vim or NeoVim
 
@@ -81,6 +82,30 @@ function e {
 
 ```fish
 function e
-    eval (ea p 20 "emacs +{line}:{column} '{path}'")
+    eval (ea p $argv "emacs +{line}:{column} '{path}'")
+end
+```
+
+## Bash and TextMate
+
+```bash
+e() {
+    eval $(ea p $1 "mate -l {line}:{column} '{path}'")
+}
+```
+
+## Zsh and TextMate
+
+```zsh
+function e {
+    eval $(ea p $1 "mate -l {line}:{column} '{path}'")
+}
+```
+
+## Fish and TextMate
+
+```fish
+function e
+    eval (ea p $argv "mate -l {line}:{column} '{path}'")
 end
 ```
