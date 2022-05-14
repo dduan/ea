@@ -41,6 +41,7 @@ platform to download. Unpack it somewhere you'd like to run it from.
     * [Shell Integration](docs/UserManual.md#shell-integration)
 * [Editor Alias](docs/ShellIntegrations.md#editor-alias)
 * [Note to packagers](docs/Packaging.md)
+* [Developing ea](docs/Developing.md)
 
 ## Credits
 
