@@ -34,8 +34,8 @@ You'll see that file locations in the original command are now prefixed with a n
 
 `ea list`, or simply `ea`, will print out these locations along with their numbers again:
 
-> [1] src/something.rs:23
-> [2] src/something.rs:41
+> [1] src/something.rs:23 
+> [2] src/something.rs:41 
 > ...
 
 With the numbers, `ea` can retrieve a corresponding path. In our example, `ea print` _2_ (or `ea p` _2_ in short) results in:
