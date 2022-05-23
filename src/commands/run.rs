@@ -44,7 +44,8 @@ impl fmt::Display for RunError {
 
 impl error::Error for RunError {}
 
-static ERROR_SIGNAL: [u8; 4] = [0xde, 0xad, 0xbe, 0xef];
+// deliberately mis-spelled
+static ERROR_SIGNAL: [u8; 4] = [0xde, 0xad, 0xbe, 0xaf];
 
 fn format_error(is_tty: bool, error: Box<dyn error::Error>) -> String {
     if is_tty {
