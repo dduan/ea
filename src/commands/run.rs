@@ -47,7 +47,7 @@ pub fn run(style: &Style, executable: &str, arguments: &[String], debug: Option<
             .as_bytes(),
         );
         _ = io::stderr().write(&output[5..]);
-        eprintln!("");
+        eprintln!();
         process::exit(output[4] as i32);
     }
 
