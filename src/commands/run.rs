@@ -38,7 +38,7 @@ fn format_error(is_tty: bool, error: Box<dyn error::Error>) -> String {
 pub fn run(style: &Style, executable: &str, arguments: &[String], debug: Option<String>) {
     let is_tty = atty::is(atty::Stream::Stdout);
     let output = execute(is_tty, executable, arguments);
-    if output[..4] == ERROR_SIGNAL {
+    if output.len() >= 4 && output[..4] == ERROR_SIGNAL {
         _ = io::stderr().write(
             format_error(
                 is_tty,
