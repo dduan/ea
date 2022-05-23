@@ -87,7 +87,7 @@ _ea() {
             return 0
             ;;
         ea__run)
-            opts="-h --debug --help grouped linear search <EXECUTABLE> <ARGUMENTS>..."
+            opts="-h --debug --help grouped linear search rust <EXECUTABLE> <ARGUMENTS>..."
             if [[ ${cur} == -* || ${COMP_CWORD} -eq 2 ]] ; then
                 COMPREPLY=( $(compgen -W "${opts}" -- "${cur}") )
                 return 0
