@@ -13,6 +13,4 @@ fn main() {
     for shell in [Bash, PowerShell, Fish, Elvish, Zsh] {
         generate_to(shell, &mut cmd, "ea", &outdir).unwrap();
     }
-
-    println!("cargo:rerun-if-changed=src/interface.rs");
 }

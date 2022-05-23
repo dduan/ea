@@ -33,7 +33,7 @@ _arguments "${_arguments_options[@]}" \
 '--debug=[Write debug info at <debug_files_base_name.*>]:debug_files_base_name:_files' \
 '-h[Print help information]' \
 '--help[Print help information]' \
-':style -- Format of output from EXECUTABLE. ea looks for file paths, lines, and columns within the file at the path. A file path can have one or more "locations". A location has at least a file path, and a line number, with an optional column:(grouped linear search)' \
+':style -- Format of output from EXECUTABLE. ea looks for file paths, lines, and columns within the file at the path. A file path can have one or more "locations". A location has at least a file path, and a line number, with an optional column:(grouped linear search rust)' \
 ':executable -- The command to execute:_command_names -e' \
 '*::arguments -- Arguments for EXECUTABLE. Must be separated from EXECUTABLE with `--` (two dashes):' \
 && ret=0
