@@ -73,7 +73,7 @@ pub fn run(style: &Style, executable: &str, arguments: &[String], debug: Option<
         Style::Linear => parsers::linear::linear,
         Style::Search => parsers::search::search,
         Style::Rust => parsers::rust::rust,
-        Style::Python => parsers::python::python,
+        Style::Py => parsers::python::python,
     }(&output);
 
     let (display, locations) = match parsed {
