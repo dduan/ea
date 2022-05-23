@@ -79,6 +79,8 @@ pub fn run(style: &Style, executable: &str, arguments: &[String], debug: Option<
 }
 
 fn execute_simple(executable: &str, arguments: &[String], output: &mut Vec<u8>) -> i32 {
+    // We must run with .status() as opposed to .output() because we might be in a pty.
+    // Running .output() would convince the process it's not in a pty!
     let execution_result = process::Command::new(executable).args(arguments).status();
     match execution_result {
         Ok(exit_status) => {
