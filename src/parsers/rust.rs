@@ -16,8 +16,7 @@ pub fn rust(input: &[u8]) -> Result<(Vec<u8>, Vec<Location>), ParseError> {
 mod tests {
     use super::rust;
     use crate::archive::read_from;
-    use crate::parsers::tests::fixture;
-    use crate::Location;
+    use crate::{parsers::tests::fixture, Location};
     use std::fs;
 
     #[test]

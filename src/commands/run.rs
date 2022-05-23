@@ -13,19 +13,39 @@ use std::process;
 #[derive(Debug)]
 enum RunError {
     CouldNotExecuteCommand(String),
+    CommandEncounteredError(String),
+    CommandWasInterrupted(String),
+}
+
+impl RunError {
+    fn new(code: u8, command: &str) -> Option<Self> {
+        match code {
+            0 => Some(Self::CouldNotExecuteCommand(command.to_string())),
+            1 => Some(Self::CommandEncounteredError(command.to_string())),
+            2 => Some(Self::CommandWasInterrupted(command.to_string())),
+            _ => None,
+        }
+    }
+
+    fn could_not_execute_command() -> u8 { 0 }
+    fn command_encountered_error() -> u8 { 1 }
+    fn command_was_interrupted() -> u8 { 2 }
 }
 
 impl fmt::Display for RunError {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
             RunError::CouldNotExecuteCommand(command) => write!(f, "could not execute {}", command),
+            RunError::CommandEncounteredError(command) => write!(f, "{} encountered an error", command),
+            RunError::CommandWasInterrupted(command) => write!(f, "{} was interrupted by signal", command),
         }
     }
 }
 
 impl error::Error for RunError {}
 
-static ERROR_SIGNAL: [u8; 4] = [0xde, 0xad, 0xbe, 0xef];
+// deliberately mis-spelled
+static ERROR_SIGNAL: [u8; 4] = [0xde, 0xad, 0xbe, 0xaf];
 
 fn format_error(is_tty: bool, error: Box<dyn error::Error>) -> String {
     if is_tty {
@@ -38,17 +58,13 @@ fn format_error(is_tty: bool, error: Box<dyn error::Error>) -> String {
 pub fn run(style: &Style, executable: &str, arguments: &[String], debug: Option<String>) {
     let is_tty = atty::is(atty::Stream::Stdout);
     let output = execute(is_tty, executable, arguments);
-    if output.len() >= 4 && output[..4] == ERROR_SIGNAL {
-        _ = io::stderr().write(
-            format_error(
-                is_tty,
-                Box::new(RunError::CouldNotExecuteCommand(executable.to_string())),
-            )
-            .as_bytes(),
-        );
-        _ = io::stderr().write(&output[5..]);
+    let output_len = output.len();
+    if output_len >= 4 && output[(output_len - 4)..] == ERROR_SIGNAL {
+        let error = RunError::new(output[output_len - 5], executable).expect("Error synthesized");
+        _ = io::stderr().write(format_error(is_tty, Box::new(error)).as_bytes());
+        _ = io::stderr().write(&output[0..(output_len - 6)]);
         eprintln!();
-        process::exit(output[4] as i32);
+        process::exit(output[output_len - 6] as i32);
     }
 
     let parsed = match style {
@@ -83,32 +99,38 @@ fn execute_simple(executable: &str, arguments: &[String], output: &mut Vec<u8>) 
     // We must run with .status() as opposed to .output() because we might be in a pty.
     // Running .output() would convince the process it's not in a pty!
     let execution_result = process::Command::new(executable).args(arguments).status();
+
+    let error_code: u8;
+    let exit: u8;
     match execution_result {
         Ok(exit_status) => {
             if let Some(exit_code) = exit_status.code() {
-                if exit_code != 0 {
-                    output.extend_from_slice(&ERROR_SIGNAL);
-                    output.push(exit_code as u8);
-                    // TODO: better explanation?
-                    output.extend_from_slice(b"an unknown error happend during execution");
-                }
-                return exit_code;
-            } // TODO: else ??????
+                exit = exit_code as u8;
+                // if exit is 0, this following error won't really be used later.
+                error_code = RunError::command_encountered_error();
+            } else {
+                exit = 1;
+                error_code = RunError::command_was_interrupted();
+            }
         }
         Err(error) => {
-            // We are in a child process, whose entire output will be read by the parent.
-            // To signal to the parent that something went wrong, we print out a special
-            // sequence at the start of the output, followed by an error code.
-            // Any error produced by the external command is attached after the error
-            // signal sequence.
-            output.extend_from_slice(&ERROR_SIGNAL);
-            output.push(error.raw_os_error().unwrap_or(1) as u8);
             output.extend_from_slice(error.to_string().as_bytes());
-            return 1;
+            exit = error.raw_os_error().unwrap_or(1) as u8;
+            error_code = RunError::could_not_execute_command();
         }
     }
 
-    0
+    // We are in a child process, whose entire output will be read by the parent.  To signal to the
+    // parent that something went wrong, we print out a special sequence at the end of the output,
+    // proceeded by an error code, proceeded by an exit status.  Any error produced by the external
+    // command is attached after the error signal sequence.
+    if exit != 0 {
+        output.push(exit);
+        output.push(error_code);
+        output.extend_from_slice(&ERROR_SIGNAL);
+    }
+
+    exit as i32
 }
 
 fn execute(is_tty: bool, executable: &str, arguments: &[String]) -> Vec<u8> {
