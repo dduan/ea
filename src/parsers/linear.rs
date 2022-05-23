@@ -52,7 +52,7 @@ mod tests {
         let input = fs::read(fixture("linear_colored.in.txt")).expect("input file");
         let expected_output = fs::read(fixture("linear_colored.out.txt")).expect("output file");
         let output = linear(&input);
-        assert_eq!(output.0, expected_output);
+        assert_eq!(output.expect("linear output").0, expected_output);
     }
 
     #[test]
@@ -60,7 +60,7 @@ mod tests {
         let input = fs::read(fixture("linear_colored.in.txt")).expect("input file");
         let expected_locations: Vec<Location> = read_from(&fixture("linear_colored_locations.bin"));
         let output = linear(&input);
-        assert_eq!(output.1, expected_locations);
+        assert_eq!(output.expect("linear output").1, expected_locations);
     }
 
     #[test]
@@ -68,7 +68,7 @@ mod tests {
         let input = fs::read(fixture("linear.in.txt")).expect("input file");
         let expected_output = fs::read(fixture("linear.out.txt")).expect("output file");
         let output = linear(&input);
-        assert_eq!(output.0, expected_output);
+        assert_eq!(output.expect("linear output").0, expected_output);
     }
 
     #[test]
@@ -76,6 +76,6 @@ mod tests {
         let input = fs::read(fixture("linear.in.txt")).expect("input file");
         let expected_locations: Vec<Location> = read_from(&fixture("linear_locations.bin"));
         let output = linear(&input);
-        assert_eq!(output.1, expected_locations);
+        assert_eq!(output.expect("linear output").1, expected_locations);
     }
 }

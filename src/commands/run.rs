@@ -5,22 +5,52 @@ use atty;
 use pty::fork::Fork;
 use std;
 use std::error;
+use std::fmt;
 use std::fs;
 use std::io::{self, Read, Write};
 use std::process;
 
+#[derive(Debug)]
+enum RunError {
+    CouldNotExecuteCommand(String),
+}
+
+impl fmt::Display for RunError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            RunError::CouldNotExecuteCommand(command) => write!(f, "could not execute {}", command),
+        }
+    }
+}
+
+impl error::Error for RunError {}
+
+static ERROR_SIGNAL: [u8; 4] = [0xde, 0xad, 0xbe, 0xef];
+
 fn format_error(is_tty: bool, error: Box<dyn error::Error>) -> String {
     if is_tty {
-        format!("\n\x1b[0m\x1b[31m[ea]: {}\x1b[0m\n", error)
+        format!("\x1b[0m\x1b[31m[ea]: {}\x1b[0m\n", error)
     } else {
-        format!("\n[ea]: {}\n", error)
+        format!("[ea]: {}\n", error)
     }
 }
 
 pub fn run(style: &Style, executable: &str, arguments: &[String], debug: Option<String>) {
     let is_tty = atty::is(atty::Stream::Stdout);
     let output = execute(is_tty, executable, arguments);
-    _ = fs::write("/tmp/out", &output);
+    if output[..4] == ERROR_SIGNAL {
+        _ = io::stderr().write(
+            format_error(
+                is_tty,
+                Box::new(RunError::CouldNotExecuteCommand(executable.to_string())),
+            )
+            .as_bytes(),
+        );
+        _ = io::stderr().write(&output[5..]);
+        eprintln!("");
+        process::exit(output[4] as i32);
+    }
+
     let parsed = match style {
         Style::Grouped => parsers::grouped::grouped,
         Style::Linear => parsers::linear::linear,
@@ -48,26 +78,51 @@ pub fn run(style: &Style, executable: &str, arguments: &[String], debug: Option<
     }
 }
 
+fn execute_simple(executable: &str, arguments: &[String], output: &mut Vec<u8>) -> i32 {
+    let execution_result = process::Command::new(executable).args(arguments).status();
+    match execution_result {
+        Ok(exit_status) => {
+            if let Some(exit_code) = exit_status.code() {
+                if exit_code != 0 {
+                    output.extend_from_slice(&ERROR_SIGNAL);
+                    output.push(exit_code as u8);
+                    // TODO: better explanation?
+                    output.extend_from_slice(b"an unknown error happend during execution");
+                }
+                return exit_code;
+            } // TODO: else ??????
+        }
+        Err(error) => {
+            // We are in a child process, whose entire output will be read by the parent.
+            // To signal to the parent that something went wrong, we print out a special
+            // sequence at the start of the output, followed by an error code.
+            // Any error produced by the external command is attached after the error
+            // signal sequence.
+            output.extend_from_slice(&ERROR_SIGNAL);
+            output.push(error.raw_os_error().unwrap_or(1) as u8);
+            output.extend_from_slice(error.to_string().as_bytes());
+            return 1;
+        }
+    }
+
+    0
+}
+
 fn execute(is_tty: bool, executable: &str, arguments: &[String]) -> Vec<u8> {
+    let mut output = Vec::new();
     if is_tty {
         let fork = Fork::from_ptmx().unwrap();
-        let mut output = Vec::new();
         if let Ok(mut parent) = fork.is_parent() {
             _ = parent.read_to_end(&mut output);
         } else {
-            process::Command::new(executable)
-                .args(arguments)
-                .status()
-                .expect(concat!("could not execute", stringify!(executable)));
-            // TODO: should the exit code ever not be 0?
-            process::exit(0)
+            let code = execute_simple(executable, arguments, &mut output);
+            if code != 0 {
+                _ = io::stderr().write(&output);
+            }
+            process::exit(code);
         }
-        output
     } else {
-        let output = process::Command::new(executable)
-            .args(arguments)
-            .output()
-            .expect(concat!("could not execute", stringify!(executable)));
-        output.stdout
+        _ = execute_simple(executable, arguments, &mut output);
     }
+    output
 }

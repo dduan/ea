@@ -53,7 +53,7 @@ mod tests {
         let input = fs::read(fixture("search.in.txt")).expect("input file");
         let expected_output = fs::read(fixture("search.out.txt")).expect("output file");
         let output = search(&input);
-        assert_eq!(output.0, expected_output);
+        assert_eq!(output.expect("search output").0, expected_output);
     }
 
     #[test]
@@ -61,6 +61,6 @@ mod tests {
         let input = fs::read(fixture("search.in.txt")).expect("input file");
         let expected_locations: Vec<Location> = read_from(&fixture("search_locations.bin"));
         let output = search(&input);
-        assert_eq!(output.1, expected_locations);
+        assert_eq!(output.expect("search output").1, expected_locations);
     }
 }

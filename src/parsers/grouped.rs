@@ -60,7 +60,7 @@ mod tests {
         let input = fs::read(fixture("grouped.in.txt")).expect("input file");
         let expected_output = fs::read(fixture("grouped.out.txt")).expect("output file");
         let output = grouped(&input);
-        assert_eq!(output.0, expected_output);
+        assert_eq!(output.expect("grouped output").0, expected_output);
     }
 
     #[test]
@@ -68,7 +68,7 @@ mod tests {
         let input = fs::read(fixture("grouped.in.txt")).expect("input file");
         let expected_locations: Vec<Location> = read_from(&fixture("grouped_locations.bin"));
         let output = grouped(&input);
-        assert_eq!(output.1, expected_locations);
+        assert_eq!(output.expect("grouped output").1, expected_locations);
     }
 
     #[test]
@@ -76,7 +76,7 @@ mod tests {
         let input = fs::read(fixture("grouped2.in.txt")).expect("input file");
         let expected_output = fs::read(fixture("grouped2.out.txt")).expect("output file");
         let output = grouped(&input);
-        assert_eq!(output.0, expected_output);
+        assert_eq!(output.expect("grouped output").0, expected_output);
     }
 
     #[test]
@@ -84,15 +84,15 @@ mod tests {
         let input = fs::read(fixture("grouped2.in.txt")).expect("input file");
         let expected_locations: Vec<Location> = read_from(&fixture("grouped2_locations.bin"));
         let output = grouped(&input);
-        assert_eq!(output.1, expected_locations);
+        assert_eq!(output.expect("grouped output").1, expected_locations);
     }
 
     #[test]
     fn test_grouped_output3() {
         let input = fs::read(fixture("grouped3.in.txt")).expect("input file");
         let expected_output = fs::read(fixture("grouped3.out.txt")).expect("output file");
-        let output = grouped(&input).0;
-        assert_eq!(output, expected_output);
+        let output = grouped(&input);
+        assert_eq!(output.expect("grouped output").0, expected_output);
     }
 
     #[test]
@@ -100,6 +100,6 @@ mod tests {
         let input = fs::read(fixture("grouped3.in.txt")).expect("input file");
         let expected_locations: Vec<Location> = read_from(&fixture("grouped3_locations.bin"));
         let output = grouped(&input);
-        assert_eq!(output.1, expected_locations);
+        assert_eq!(output.expect("grouped output").1, expected_locations);
     }
 }
