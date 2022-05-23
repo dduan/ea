@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/tmp/test2.py", line 1, in <module>
+    import test
+  File "/private/tmp/test.py", line 1
+    def f()
+           ^
+SyntaxError: invalid syntax

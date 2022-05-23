@@ -36,7 +36,7 @@ fn invoke_subprocess_via_pty() -> Result<(), Box<dyn std::error::Error>> {
             .expect("execution fails");
         process::exit(0)
     }
-    assert!(find_subsequence(&output, b"[[0m[31m1[0m] [0m[32m20[0m:").is_some());
+    assert!(find_subsequence(&output, b"[0m[[31m1[0m] [0m[32m20[0m:").is_some());
     Ok(())
 }
 

@@ -1,5 +1,5 @@
 [0m[1m[33mwarning[0m[0m[1m: literal with an empty format string[0m
-[0m  [0m[0m[1m[38;5;12m--> [0m[0m[[0m[31m1[0m] src/parsers.rs:28:25[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0m[0m[[31m1[0m] src/parsers.rs:28:25[0m
 [0m   [0m[0m[1m[38;5;12m|[0m
 [0m[1m[38;5;12m28[0m[0m [0m[0m[1m[38;5;12m| [0m[0m        write!(f, "{}", "Could not decode input as UTF-8 string")[0m
 [0m   [0m[0m[1m[38;5;12m| [0m[0m                        [0m[0m[1m[33m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
@@ -13,7 +13,7 @@
 [0m   [0m[0m[1m[38;5;12m| [0m
 
 [0m[1m[33mwarning[0m[0m[1m: using `eprintln!("")`[0m
-[0m  [0m[0m[1m[38;5;12m--> [0m[0m[[0m[31m2[0m] src/commands/run.rs:50:9[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0m[0m[[31m2[0m] src/commands/run.rs:50:9[0m
 [0m   [0m[0m[1m[38;5;12m|[0m
 [0m[1m[38;5;12m50[0m[0m [0m[0m[1m[38;5;12m| [0m[0m        eprintln!("");[0m
 [0m   [0m[0m[1m[38;5;12m| [0m[0m        [0m[0m[1m[33m^^^^^^^^^^^^^[0m[0m [0m[0m[1m[33mhelp: replace it with: `eprintln!()`[0m

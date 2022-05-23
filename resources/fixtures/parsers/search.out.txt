@@ -1,20 +1,20 @@
 [2KBuilding for debugging...
-[2Kerror: emit-module command failed with exit code 1 (use -v to see invocation)[2K[1/3] Compiling Clue ClueEngine.swift[2K[1m[[0m[31m1[0m] /Users/dduan/src/Clue/Sources/Clue/ClueEngine.swift:5:13: [0m[0;1;31merror: [0m[1mcannot find type 'IndexStoreDBx' in scope
+[2Kerror: emit-module command failed with exit code 1 (use -v to see invocation)[2K[1/3] Compiling Clue ClueEngine.swift[2K[1m[0m[[31m1[0m] /Users/dduan/src/Clue/Sources/Clue/ClueEngine.swift:5:13: [0m[0;1;31merror: [0m[1mcannot find type 'IndexStoreDBx' in scope
 [0m    let db: IndexStoreDBx
 [0;1;32m            ^~~~~~~~~~~~~
-[0m[1m[[0m[31m2[0m] /Users/dduan/src/Clue/Sources/Clue/ClueEngine.swift:53:50: [0m[0;1;31merror: [0m[1mreference to member 'implicit' cannot be resolved without a contextual type
+[0m[1m[0m[[31m2[0m] /Users/dduan/src/Clue/Sources/Clue/ClueEngine.swift:53:50: [0m[0;1;31merror: [0m[1mreference to member 'implicit' cannot be resolved without a contextual type
 [0m            .filter { !$0.roles.isSuperset(of: [.implicit, .definition]) }
 [0;1;32m                                                 ^
-[0m[1m[[0m[31m3[0m] /Users/dduan/src/Clue/Sources/Clue/ClueEngine.swift:53:61: [0m[0;1;31merror: [0m[1mreference to member 'definition' cannot be resolved without a contextual type
+[0m[1m[0m[[31m3[0m] /Users/dduan/src/Clue/Sources/Clue/ClueEngine.swift:53:61: [0m[0;1;31merror: [0m[1mreference to member 'definition' cannot be resolved without a contextual type
 [0m            .filter { !$0.roles.isSuperset(of: [.implicit, .definition]) }
 [0;1;32m                                                            ^
-[0m[1m[[0m[31m4[0m] /Users/dduan/src/Clue/Sources/Clue/ClueEngine.swift:82:42: [0m[0;1;31merror: [0m[1mcannot infer contextual base in reference to member 'definition'
+[0m[1m[0m[[31m4[0m] /Users/dduan/src/Clue/Sources/Clue/ClueEngine.swift:82:42: [0m[0;1;31merror: [0m[1mcannot infer contextual base in reference to member 'definition'
 [0m            .filter { $0.roles.contains(.definition) && $0.location.isSystem == isSystem }
 [0;1;32m                                        ~^~~~~~~~~~
-[0m[1m[[0m[31m5[0m] /Users/dduan/src/Clue/Sources/Clue/ClueEngine.swift:99:65: [0m[0;1;31merror: [0m[1mcannot infer contextual base in reference to member 'definition'
+[0m[1m[0m[[31m5[0m] /Users/dduan/src/Clue/Sources/Clue/ClueEngine.swift:99:65: [0m[0;1;31merror: [0m[1mcannot infer contextual base in reference to member 'definition'
 [0m            let candidates = db.occurrences(ofUSR: usr, roles: .definition)
 [0;1;32m                                                               ~^~~~~~~~~~
-[0m[2K[2/3] Emitting module Clue[2K[1m[[0m[31m6[0m] /Users/dduan/src/Clue/Sources/Clue/ClueEngine.swift:5:13: [0m[0;1;31merror: [0m[1mcannot find type 'IndexStoreDBx' in scope
+[0m[2K[2/3] Emitting module Clue[2K[1m[0m[[31m6[0m] /Users/dduan/src/Clue/Sources/Clue/ClueEngine.swift:5:13: [0m[0;1;31merror: [0m[1mcannot find type 'IndexStoreDBx' in scope
 [0m    let db: IndexStoreDBx
 [0;1;32m            ^~~~~~~~~~~~~
 [0m[2K[2/3] Emitting module Clue[2K[2/3] Emitting module Clue[2K[2/3] Emitting module Clue[2K[2/3] Emitting module Clue[2K[2/3] Emitting module Clue[2K[2/3] Emitting module Clue[2K[2/3] Emitting module Clue[2K[2/3] Emitting module Clue[2K[2/3] Emitting module Clue[2K[2/3] Emitting module Clue

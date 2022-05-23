@@ -5,7 +5,7 @@ use crate::parsers::{ParseError, search_pattern};
 
 lazy_static! {
     static ref RE_LINE: Regex =
-        Regex::new(r#"(\r|\n)(\x1b\[[0-9;]*m?)*([^:\n\r]+):(\d+)(?::(\d+))?"#).unwrap();
+        Regex::new(r#"(\r|\n)(\x1b\[[0-9;]*m?)*(?P<path>[^:\n\r]+):(?P<line>\d+)(:(?P<column>\d+))?"#).unwrap();
 }
 
 pub fn search(input: &[u8]) -> Result<(Vec<u8>, Vec<Location>), ParseError> {
