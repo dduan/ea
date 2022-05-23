@@ -1,0 +1,25 @@
+[0m[1m[33mwarning[0m[0m[1m: literal with an empty format string[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/parsers.rs:28:25[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m28[0m[0m [0m[0m[1m[38;5;12m| [0m[0m        write!(f, "{}", "Could not decode input as UTF-8 string")[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m                        [0m[0m[1m[33m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m   [0m[0m[1m[38;5;12m= [0m[0m[1mnote[0m[0m: `#[warn(clippy::write_literal)]` on by default[0m
+[0m   [0m[0m[1m[38;5;12m= [0m[0m[1mhelp[0m[0m: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#write_literal[0m
+[0m[1m[38;5;14mhelp[0m[0m: try this[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m28[0m[0m [0m[0m[38;5;9m- [0m[0m        write!(f, "[0m[0m[38;5;9m{}[0m[0m"[0m[0m[38;5;9m, "Could not decode input as UTF-8 string"[0m[0m)[0m
+[0m[1m[38;5;12m28[0m[0m [0m[0m[38;5;10m+ [0m[0m        write!(f, "[0m[0m[38;5;10mCould not decode input as UTF-8 string[0m[0m")[0m
+[0m   [0m[0m[1m[38;5;12m| [0m
+
+[0m[1m[33mwarning[0m[0m[1m: using `eprintln!("")`[0m
+[0m  [0m[0m[1m[38;5;12m--> [0m[0msrc/commands/run.rs:50:9[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m[1m[38;5;12m50[0m[0m [0m[0m[1m[38;5;12m| [0m[0m        eprintln!("");[0m
+[0m   [0m[0m[1m[38;5;12m| [0m[0m        [0m[0m[1m[33m^^^^^^^^^^^^^[0m[0m [0m[0m[1m[33mhelp: replace it with: `eprintln!()`[0m
+[0m   [0m[0m[1m[38;5;12m|[0m
+[0m   [0m[0m[1m[38;5;12m= [0m[0m[1mnote[0m[0m: `#[warn(clippy::println_empty_string)]` on by default[0m
+[0m   [0m[0m[1m[38;5;12m= [0m[0m[1mhelp[0m[0m: for further information visit https://rust-lang.github.io/rust-clippy/master/index.html#println_empty_string[0m
+
+[0m[0m[1m[33mwarning[0m[1m:[0m `ea-command` (lib) generated 2 warnings
+[0m[0m[1m[32m    Finished[0m dev [unoptimized + debuginfo] target(s) in 0.03s

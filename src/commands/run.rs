@@ -55,6 +55,7 @@ pub fn run(style: &Style, executable: &str, arguments: &[String], debug: Option<
         Style::Grouped => parsers::grouped::grouped,
         Style::Linear => parsers::linear::linear,
         Style::Search => parsers::search::search,
+        Style::Rust => parsers::rust::rust,
     }(&output);
 
     let (display, locations) = match parsed {

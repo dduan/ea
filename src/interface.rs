@@ -20,6 +20,7 @@ pub enum Style {
     Grouped,
     Linear,
     Search,
+    Rust,
 }
 
 #[derive(Debug, Subcommand)]
