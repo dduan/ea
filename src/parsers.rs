@@ -1,5 +1,7 @@
 use lazy_static::lazy_static;
 use regex::Regex;
+use std::error;
+use std::fmt;
 
 pub mod grouped;
 pub mod linear;
@@ -14,6 +16,18 @@ fn append_line(output: &mut String, location_number: usize, line: &str) {
         "{}[\x1b[0m\x1b[31m{}\x1b[0m] {}\n",
         output, location_number, line
     );
+}
+
+#[derive(Debug)]
+pub enum ParseError {
+    FailedEncoding,
+}
+
+impl error::Error for ParseError {}
+impl fmt::Display for ParseError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{}", "Could not decode input as UTF-8 string")
+    }
 }
 
 #[cfg(test)]

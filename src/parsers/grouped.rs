@@ -1,15 +1,18 @@
-use crate::parsers::{append_line, RE_ANSI_CODE};
+use crate::parsers::{append_line, ParseError, RE_ANSI_CODE};
 use crate::Location;
+use guard::guard;
 use lazy_static::lazy_static;
 use regex::Regex;
 
-pub fn grouped(input: &[u8]) -> (Vec<u8>, Vec<Location>) {
+pub fn grouped(input: &[u8]) -> Result<(Vec<u8>, Vec<Location>), ParseError> {
     lazy_static! {
         static ref RE_LINE: Regex = Regex::new(r#"^(\d+):(?:(\d+):)?.+?"#).unwrap();
     }
 
     let mut output = String::new();
-    let input_str = std::str::from_utf8(input).unwrap();
+    guard!(let Ok(input_str) = std::str::from_utf8(input) else {
+        return Result::Err(ParseError::FailedEncoding);
+    });
 
     let mut locations: Vec<Location> = Vec::new();
     let mut file: Option<String> = None;
@@ -41,7 +44,7 @@ pub fn grouped(input: &[u8]) -> (Vec<u8>, Vec<Location>) {
     }
 
     let output_data: Vec<u8> = output.as_bytes().to_owned();
-    (output_data, locations)
+    Ok((output_data, locations))
 }
 
 #[cfg(test)]
