@@ -21,6 +21,7 @@ pub enum Style {
     Linear,
     Search,
     Rust,
+    Py,
 }
 
 #[derive(Debug, Subcommand)]

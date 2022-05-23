@@ -1,0 +1,5 @@
+[0;36m  File [0;32m"/tmp/test.py"[0;36m, line [0;32m1[0m
+[0;31m    def f()[0m
+[0m           ^[0m
+[0;31mSyntaxError[0m[0;31m:[0m invalid syntax
+

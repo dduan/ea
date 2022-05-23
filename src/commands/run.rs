@@ -57,14 +57,15 @@ fn format_error(is_tty: bool, error: Box<dyn error::Error>) -> String {
 
 pub fn run(style: &Style, executable: &str, arguments: &[String], debug: Option<String>) {
     let is_tty = atty::is(atty::Stream::Stdout);
-    let output = execute(is_tty, executable, arguments);
+    let mut output = execute(is_tty, executable, arguments);
     let output_len = output.len();
+    let mut error_exit_code: Option<i32> = None;
     if output_len >= 4 && output[(output_len - 4)..] == ERROR_SIGNAL {
+        _ = io::stderr().write(&output);
         let error = RunError::new(output[output_len - 5], executable).expect("Error synthesized");
         _ = io::stderr().write(format_error(is_tty, Box::new(error)).as_bytes());
-        _ = io::stderr().write(&output[0..(output_len - 6)]);
-        eprintln!();
-        process::exit(output[output_len - 6] as i32);
+        error_exit_code = Some(output[output_len - 6] as i32);
+        output = output[0..(output_len - 6)].to_vec();
     }
 
     let parsed = match style {
@@ -72,6 +73,7 @@ pub fn run(style: &Style, executable: &str, arguments: &[String], debug: Option<
         Style::Linear => parsers::linear::linear,
         Style::Search => parsers::search::search,
         Style::Rust => parsers::rust::rust,
+        Style::Py => parsers::python::python,
     }(&output);
 
     let (display, locations) = match parsed {
@@ -83,7 +85,10 @@ pub fn run(style: &Style, executable: &str, arguments: &[String], debug: Option<
         }
     };
 
-    _ = io::stdout().write(&display);
+    if error_exit_code.is_none() || !&locations.is_empty() {
+        _ = io::stdout().write(&display);
+    } // else we would already let the executable print its errors, and we have nothing to add
+
     _ = archive::write(&locations);
     if let Some(debug_path) = debug {
         _ = fs::write(
@@ -92,6 +97,10 @@ pub fn run(style: &Style, executable: &str, arguments: &[String], debug: Option<
         );
         _ = fs::write(format!("{}.in", debug_path), output);
         _ = fs::write(format!("{}.out", debug_path), &display);
+    }
+
+    if let Some(code) = error_exit_code {
+        process::exit(code)
     }
 }
 

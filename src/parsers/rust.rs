@@ -5,7 +5,7 @@ use crate::parsers::{ParseError, search_pattern};
 
 lazy_static! {
     static ref RE_LINE: Regex =
-        Regex::new(r#"  (\x1b\[[0-9;]*m?)*--> (\x1b\[[0-9;]*m?)*([^:\n\r]+):(\d+)(?::(\d+))?"#).unwrap();
+        Regex::new(r#"  (\x1b\[[0-9;]*m?)*--> (\x1b\[[0-9;]*m?)*(?P<path>[^:\n\r]+):(?P<line>\d+)(:(?P<column>\d+))?"#).unwrap();
 }
 
 pub fn rust(input: &[u8]) -> Result<(Vec<u8>, Vec<Location>), ParseError> {
@@ -32,6 +32,6 @@ mod tests {
         let input = fs::read(fixture("rust.in.txt")).expect("input file");
         let expected_locations: Vec<Location> = read_from(&fixture("rust_locations.bin"));
         let output = rust(&input);
-        assert_eq!(output.expect("search output").1, expected_locations);
+        assert_eq!(output.expect("rust output").1, expected_locations);
     }
 }

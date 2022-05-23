@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "[0m[[31m1[0m] /tmp/test2.py", line 1, in <module>
+    import test
+  File "[0m[[31m2[0m] /private/tmp/test.py", line 1
+    def f()
+           ^
+SyntaxError: invalid syntax
