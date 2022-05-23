@@ -1,10 +1,13 @@
-use crate::parsers::{append_line, RE_ANSI_CODE};
+use crate::parsers::{append_line, ParseError, RE_ANSI_CODE};
 use crate::Location;
+use guard::guard;
 
-pub fn linear(input: &[u8]) -> (Vec<u8>, Vec<Location>) {
+pub fn linear(input: &[u8]) -> Result<(Vec<u8>, Vec<Location>), ParseError> {
     let mut output = String::new();
     let mut locations: Vec<Location> = Vec::new();
-    let input_str = std::str::from_utf8(input).unwrap();
+    guard!(let Ok(input_str) = std::str::from_utf8(input) else {
+        return Result::Err(ParseError::FailedEncoding);
+    });
     for line in input_str.lines() {
         if line.is_empty() {
             continue;
@@ -33,7 +36,7 @@ pub fn linear(input: &[u8]) -> (Vec<u8>, Vec<Location>) {
         append_line(&mut output, locations.len(), line);
     }
     let output_data: Vec<u8> = output.as_bytes().to_owned();
-    (output_data, locations)
+    Ok((output_data, locations))
 }
 
 #[cfg(test)]
@@ -49,7 +52,7 @@ mod tests {
         let input = fs::read(fixture("linear_colored.in.txt")).expect("input file");
         let expected_output = fs::read(fixture("linear_colored.out.txt")).expect("output file");
         let output = linear(&input);
-        assert_eq!(output.0, expected_output);
+        assert_eq!(output.expect("linear output").0, expected_output);
     }
 
     #[test]
@@ -57,7 +60,7 @@ mod tests {
         let input = fs::read(fixture("linear_colored.in.txt")).expect("input file");
         let expected_locations: Vec<Location> = read_from(&fixture("linear_colored_locations.bin"));
         let output = linear(&input);
-        assert_eq!(output.1, expected_locations);
+        assert_eq!(output.expect("linear output").1, expected_locations);
     }
 
     #[test]
@@ -65,7 +68,7 @@ mod tests {
         let input = fs::read(fixture("linear.in.txt")).expect("input file");
         let expected_output = fs::read(fixture("linear.out.txt")).expect("output file");
         let output = linear(&input);
-        assert_eq!(output.0, expected_output);
+        assert_eq!(output.expect("linear output").0, expected_output);
     }
 
     #[test]
@@ -73,6 +76,6 @@ mod tests {
         let input = fs::read(fixture("linear.in.txt")).expect("input file");
         let expected_locations: Vec<Location> = read_from(&fixture("linear_locations.bin"));
         let output = linear(&input);
-        assert_eq!(output.1, expected_locations);
+        assert_eq!(output.expect("linear output").1, expected_locations);
     }
 }

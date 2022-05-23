@@ -1,8 +1,10 @@
+use crate::parsers::ParseError;
 use crate::Location;
+use guard::guard;
 use lazy_static::lazy_static;
 use regex::Regex;
 
-pub fn search(input: &[u8]) -> (Vec<u8>, Vec<Location>) {
+pub fn search(input: &[u8]) -> Result<(Vec<u8>, Vec<Location>), ParseError> {
     lazy_static! {
         static ref RE_LINE: Regex =
             Regex::new(r#"(\r|\n)(\x1b\[[0-9;]*m?)*([^:\n\r]+):(\d+)(?::(\d+))?"#).unwrap();
@@ -11,7 +13,9 @@ pub fn search(input: &[u8]) -> (Vec<u8>, Vec<Location>) {
     let mut output = String::new();
     let mut start: usize = 0;
     let mut locations: Vec<Location> = Vec::new();
-    let input_str = std::str::from_utf8(input).unwrap();
+    guard!(let Ok(input_str) = std::str::from_utf8(input) else {
+        return Result::Err(ParseError::FailedEncoding);
+    });
     for captures in RE_LINE.captures_iter(input_str) {
         let path_match = captures.get(3).unwrap();
         let line = captures.get(4).unwrap().as_str().parse::<u64>().unwrap();
@@ -33,7 +37,7 @@ pub fn search(input: &[u8]) -> (Vec<u8>, Vec<Location>) {
     output = format!("{}{}", output, &input_str[start..]);
 
     let output_data: Vec<u8> = output.as_bytes().to_owned();
-    (output_data, locations)
+    Ok((output_data, locations))
 }
 
 #[cfg(test)]
@@ -49,7 +53,7 @@ mod tests {
         let input = fs::read(fixture("search.in.txt")).expect("input file");
         let expected_output = fs::read(fixture("search.out.txt")).expect("output file");
         let output = search(&input);
-        assert_eq!(output.0, expected_output);
+        assert_eq!(output.expect("search output").0, expected_output);
     }
 
     #[test]
@@ -57,6 +61,6 @@ mod tests {
         let input = fs::read(fixture("search.in.txt")).expect("input file");
         let expected_locations: Vec<Location> = read_from(&fixture("search_locations.bin"));
         let output = search(&input);
-        assert_eq!(output.1, expected_locations);
+        assert_eq!(output.expect("search output").1, expected_locations);
     }
 }
