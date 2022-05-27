@@ -18,7 +18,7 @@
             pname = info.name;
             version = info.version;
             src = ./.;
-            cargoSha256 = "sha256-ErRk3tqrM1+TJcxphZvS44yBwFBH+mHwzAmmUECTsUI=";
+            cargoSha256 = "sha256-UOZcFTqH3nym+v2W92gkY5UXJZb1SkWgNAm83JWHSt8=";
             lockFile = ./Cargo.lock;
             nativeBuildInputs = [ installShellFiles pandoc ];
             preFixup = ''
