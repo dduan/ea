@@ -1,4 +1,4 @@
-% EA(1) Version 0.1.0 | EA MANUAL
+% EA(1) Version 0.2.0 | EA MANUAL
 
 NAME
 ----
