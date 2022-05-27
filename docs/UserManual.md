@@ -34,8 +34,8 @@ You'll see that file locations in the original command are now prefixed with a n
 
 `ea list`, or simply `ea`, will print out these locations along with their numbers again:
 
-> [1] src/something.rs:23 
-> [2] src/something.rs:41 
+> [1] src/something.rs:23  
+> [2] src/something.rs:41  
 > ...
 
 With the numbers, `ea` can retrieve a corresponding path. In our example, `ea print` _2_ (or `ea p` _2_ in short) results in:
@@ -52,13 +52,13 @@ It is recommended to create shell aliases or functions for frequently used `ea` 
 FORMATS
 -------
 
-`ea run`'s first argument _style_ is mandatory. It indicates how file locations will appear in the output. This argument must be one of `grouped`, `linear`, or `search`. This section will explain what each of them means. The command you run through `ea` should have a matching _format_ value.
+`ea run`'s first argument _style_ is mandatory. It indicates how file locations will appear in the output. This argument must be one of the following: `grouped`, `linear`, `search`, `rust` `python`. This section will explain what each of them means. The command you run through `ea` should have a matching _format_ value.
 
 **grouped** indicates the command's output contains one or more sections, each section begins with a file path, and lines of line/column, and possibly more content, follows. An example of this _style_ of output is `ripgrep`'s default output:
 
 > src/archive.rs  
-> 41:pub fn read() -> Vec<Location> {  
-> 45:pub fn read_from(path: &Path) -> Vec<Location> {  
+> 41: pub fn read() -> Vec<Location> {  
+> 45: pub fn read_from(path: &Path) -> Vec<Location> {  
 >  
 > src/interface.rs  
 > 53:        arguments: Vec<String>,  
@@ -73,7 +73,10 @@ FORMATS
 **search** means the output is almost arbitrary, except every now and then, an location appears at the beginning of a line. This is common in error messages from compilers like _clang_ or _swift_: 
 
 > Sources/Critic/DocProblem.swift:5:26: error: cannot find type 'Stringx' in scope  
->    public let filePath: Stringx
+
+**rust** means the format from Rust tools such as rustc, or clippy.
+
+**python** means Python or iPython's backtrace.
 
 If you need `ea` to support more formats, please file an issue at https://github.com/dduan/ea
 

@@ -79,7 +79,15 @@ src/something.rs
 locations along with their numbers again:
 .RS
 .PP
-[1] src/something.rs:23 [2] src/something.rs:41 \&...
+[1] src/something.rs:23
+.PD 0
+.P
+.PD
+[2] src/something.rs:41
+.PD 0
+.P
+.PD
+\&...
 .RE
 .PP
 With the numbers, \f[V]ea\f[R] can retrieve a corresponding path.
@@ -107,8 +115,8 @@ used \f[V]ea\f[R] commands.
 .PP
 \f[V]ea run\f[R]\[cq]s first argument \f[I]style\f[R] is mandatory.
 It indicates how file locations will appear in the output.
-This argument must be one of \f[V]grouped\f[R], \f[V]linear\f[R], or
-\f[V]search\f[R].
+This argument must be one of the following: \f[V]grouped\f[R],
+\f[V]linear\f[R], \f[V]search\f[R], \f[V]rust\f[R] \f[V]python\f[R].
 This section will explain what each of them means.
 The command you run through \f[V]ea\f[R] should have a matching
 \f[I]format\f[R] value.
@@ -124,11 +132,11 @@ src/archive.rs
 .PD 0
 .P
 .PD
-41:pub fn read() -> Vec {
+41: pub fn read() -> Vec {
 .PD 0
 .P
 .PD
-45:pub fn read_from(path: &Path) -> Vec {
+45: pub fn read_from(path: &Path) -> Vec {
 .PP
 src/interface.rs
 .PD 0
@@ -164,11 +172,12 @@ This is common in error messages from compilers like \f[I]clang\f[R] or
 .PP
 Sources/Critic/DocProblem.swift:5:26: error: cannot find type `Stringx'
 in scope
-.PD 0
-.P
-.PD
-public let filePath: Stringx
 .RE
+.PP
+\f[B]rust\f[R] means the format from Rust tools such as rustc, or
+clippy.
+.PP
+\f[B]python\f[R] means Python or iPython\[cq]s backtrace.
 .PP
 If you need \f[V]ea\f[R] to support more formats, please file an issue
 at https://github.com/dduan/ea
@@ -199,7 +208,8 @@ e() {
 \f[R]
 .fi
 .PP
-For more examples, see documentation at https://github.com/dduan/ea
+For more examples, see documentation at
+https://github.com/dduan/ea/blob/main/docs/UserManual.md
 .SS AUTHOR
 .PP
 Daniel Duan <daniel@duan.ca>
