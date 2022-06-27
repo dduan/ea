@@ -87,9 +87,9 @@ pub fn run(style: &Style, executable: &str, arguments: &[String], debug: Option<
 
     if error_exit_code.is_none() || !&locations.is_empty() {
         _ = io::stdout().write(&display);
+        _ = archive::write(&locations);
     } // else we would already let the executable print its errors, and we have nothing to add
 
-    _ = archive::write(&locations);
     if let Some(debug_path) = debug {
         _ = fs::write(
             format!("{}.args", debug_path),
