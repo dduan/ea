@@ -1,5 +1,7 @@
 # main
 
+# 0.2.1
+
 * Empty result won't override recorded path from previous runs.
 
 # 0.2.0
