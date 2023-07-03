@@ -35,7 +35,7 @@ pub fn write(list: &[Location]) -> io::Result<()> {
 
 pub fn write_to(path: &Path, list: &[Location]) -> io::Result<()> {
     let data: Vec<u8> = bincode::serialize(list).unwrap_or_default();
-    fs::write(path, &data)
+    fs::write(path, data)
 }
 
 pub fn read() -> Vec<Location> {
